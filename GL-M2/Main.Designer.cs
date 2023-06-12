@@ -37,26 +37,26 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel_Left = new System.Windows.Forms.Panel();
-            this.panel_Main = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btConnect = new System.Windows.Forms.Button();
+            this.btRefresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxCOMPort = new System.Windows.Forms.ComboBox();
             this.comboBoxBaud = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxCamera = new System.Windows.Forms.ComboBox();
-            this.btConnect = new System.Windows.Forms.Button();
-            this.pgCam = new System.Windows.Forms.PictureBox();
-            this.btRefresh = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel_Main = new System.Windows.Forms.Panel();
+            this.pgCam = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_Left.SuspendLayout();
-            this.panel_Main.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pgCam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pgCam)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -122,15 +122,14 @@
             this.panel_Left.Size = new System.Drawing.Size(229, 635);
             this.panel_Left.TabIndex = 2;
             // 
-            // panel_Main
+            // groupBox2
             // 
-            this.panel_Main.Controls.Add(this.pgCam);
-            this.panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_Main.Location = new System.Drawing.Point(0, 24);
-            this.panel_Main.Name = "panel_Main";
-            this.panel_Main.Padding = new System.Windows.Forms.Padding(10);
-            this.panel_Main.Size = new System.Drawing.Size(1035, 635);
-            this.panel_Main.TabIndex = 3;
+            this.groupBox2.Location = new System.Drawing.Point(5, 16);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(219, 157);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Select";
             // 
             // groupBox1
             // 
@@ -152,14 +151,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Setting";
             // 
-            // groupBox2
+            // btConnect
             // 
-            this.groupBox2.Location = new System.Drawing.Point(5, 16);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(219, 157);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Select";
+            this.btConnect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btConnect.Location = new System.Drawing.Point(138, 167);
+            this.btConnect.Name = "btConnect";
+            this.btConnect.Size = new System.Drawing.Size(75, 23);
+            this.btConnect.TabIndex = 29;
+            this.btConnect.Text = "Connect";
+            this.btConnect.UseVisualStyleBackColor = true;
+            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
+            // 
+            // btRefresh
+            // 
+            this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btRefresh.BackgroundImage = global::GL_M2.Properties.Resources._refresh_32;
+            this.btRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btRefresh.Location = new System.Drawing.Point(6, 167);
+            this.btRefresh.Name = "btRefresh";
+            this.btRefresh.Size = new System.Drawing.Size(25, 23);
+            this.btRefresh.TabIndex = 30;
+            this.btRefresh.UseVisualStyleBackColor = true;
+            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
             // 
             // label5
             // 
@@ -218,40 +232,6 @@
             this.comboBoxCamera.Size = new System.Drawing.Size(111, 21);
             this.comboBoxCamera.TabIndex = 23;
             // 
-            // btConnect
-            // 
-            this.btConnect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btConnect.Location = new System.Drawing.Point(138, 167);
-            this.btConnect.Name = "btConnect";
-            this.btConnect.Size = new System.Drawing.Size(75, 23);
-            this.btConnect.TabIndex = 29;
-            this.btConnect.Text = "Connect";
-            this.btConnect.UseVisualStyleBackColor = true;
-            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
-            // 
-            // pgCam
-            // 
-            this.pgCam.BackColor = System.Drawing.Color.Black;
-            this.pgCam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgCam.Location = new System.Drawing.Point(10, 10);
-            this.pgCam.Name = "pgCam";
-            this.pgCam.Size = new System.Drawing.Size(1015, 615);
-            this.pgCam.TabIndex = 0;
-            this.pgCam.TabStop = false;
-            // 
-            // btRefresh
-            // 
-            this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btRefresh.BackgroundImage = global::GL_M2.Properties.Resources._refresh_32;
-            this.btRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btRefresh.Location = new System.Drawing.Point(6, 167);
-            this.btRefresh.Name = "btRefresh";
-            this.btRefresh.Size = new System.Drawing.Size(25, 23);
-            this.btRefresh.TabIndex = 30;
-            this.btRefresh.UseVisualStyleBackColor = true;
-            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::GL_M2.Properties.Resources.camera_logo;
@@ -261,6 +241,27 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // panel_Main
+            // 
+            this.panel_Main.Controls.Add(this.pgCam);
+            this.panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_Main.Location = new System.Drawing.Point(0, 24);
+            this.panel_Main.Name = "panel_Main";
+            this.panel_Main.Padding = new System.Windows.Forms.Padding(10);
+            this.panel_Main.Size = new System.Drawing.Size(1035, 635);
+            this.panel_Main.TabIndex = 3;
+            // 
+            // pgCam
+            // 
+            this.pgCam.BackColor = System.Drawing.Color.Black;
+            this.pgCam.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgCam.Location = new System.Drawing.Point(10, 10);
+            this.pgCam.Name = "pgCam";
+            this.pgCam.Size = new System.Drawing.Size(1015, 615);
+            this.pgCam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pgCam.TabIndex = 0;
+            this.pgCam.TabStop = false;
             // 
             // Main
             // 
@@ -282,11 +283,11 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panel_Left.ResumeLayout(false);
-            this.panel_Main.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pgCam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel_Main.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pgCam)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

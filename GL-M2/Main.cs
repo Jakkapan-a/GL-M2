@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -17,12 +18,21 @@ namespace GL_M2
     public partial class Main : Form
     {
         private readonly TCapture capture;
+        private List<Rectangle> rectangles;
+
         public Main()
         {
             InitializeComponent();
             capture = new TCapture();
+            capture.OnFrameHeader += Capture_OnFrameHeader;
+            capture.OnVideoStarted += Capture_OnVideoStarted;
+            capture.OnVideoStop += Capture_OnVideoStop;
 
+            rectangles = new List<Rectangle>();
         }
+
+      
+
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
         private int driveindex = 0;
@@ -37,8 +47,8 @@ namespace GL_M2
         {
             var videoDevices = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
             RefreshComboBox(comboBoxCamera, videoDevices);
-            RefreshComboBox(comboBoxBaud, this.baudList, comboBoxBaud.Items.Count - 1);
-            RefreshComboBox(comboBoxCOMPort, SerialPort.GetPortNames());
+            RefreshComboBox(comboBoxBaud, this.baudList, baudList.Length - 1);
+            RefreshComboBox(comboBoxCOMPort, SerialPort.GetPortNames(), SerialPort.GetPortNames().Length -1);
         }
 
         private void RefreshComboBox(ComboBox comboBox, object items, int defaultIndex = 0)
@@ -49,13 +59,42 @@ namespace GL_M2
             else comboBox.Items.AddRange((string[])items);
 
             if (comboBox.Items.Count > 0) comboBox.SelectedIndex = defaultIndex;
-
-
         }
 
-        private void btConnect_Click(object sender, EventArgs e)
+        private bool isStarted = false;
+        private async void btConnect_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Validate input combobox
+                if (comboBoxCamera.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Please select a camera", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                isStarted = !isStarted;
+                if (isStarted)
+                {
+                    pgCam.Image?.Dispose();
+                    btConnect.Text = "Connecting..";
+
+                    pgCam.Image = Properties.Resources.Spinner_0_4s_800px;
+                    await capture.StartAsync(comboBoxCamera.SelectedIndex);
+
+                    btConnect.Text = "Disconnect";
+                }
+                else
+                {
+                    isStarted = false;
+                    await capture.StopAsync();
+                    btConnect.Text = "Connect";
+                }
+            }catch(Exception ex)
+            {
+                await capture.StopAsync();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

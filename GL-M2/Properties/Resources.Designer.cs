@@ -89,5 +89,15 @@ namespace GL_M2.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Spinner_0_4s_800px {
+            get {
+                object obj = ResourceManager.GetObject("Spinner_0_4s_800px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
