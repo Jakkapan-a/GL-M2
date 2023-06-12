@@ -1,4 +1,5 @@
 ﻿using DirectShowLib;
+using GL_M2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,9 +16,12 @@ namespace GL_M2
 {
     public partial class Main : Form
     {
+        private readonly TCapture capture;
         public Main()
         {
             InitializeComponent();
+            capture = new TCapture();
+
         }
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
@@ -26,32 +30,32 @@ namespace GL_M2
         private void Main_Load(object sender, EventArgs e)
         {
 
+            btRefresh.PerformClick();
         }
 
         private void btRefresh_Click(object sender, EventArgs e)
         {
             var videoDevices = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
-            comboBoxCamera.Items.Clear();
-            foreach (DsDevice device in videoDevices)
-            {
-                comboBoxCamera.Items.Add(device.Name);
-            }
+            RefreshComboBox(comboBoxCamera, videoDevices);
+            RefreshComboBox(comboBoxBaud, this.baudList, comboBoxBaud.Items.Count - 1);
+            RefreshComboBox(comboBoxCOMPort, SerialPort.GetPortNames());
+        }
+
+        private void RefreshComboBox(ComboBox comboBox, object items, int defaultIndex = 0)
+        {
+            comboBox.Items.Clear();
+            if (items is string[]) comboBox.Items.AddRange((string[])items);
+            else if (items is List<DsDevice>) comboBox.Items.AddRange(((List<DsDevice>)items).Select(d => d.Name).ToArray());
+            else comboBox.Items.AddRange((string[])items);
+
+            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = defaultIndex;
 
 
-            if (comboBoxCamera.Items.Count > 0)
-            {
-                comboBoxCamera.SelectedIndex = 0;
-            }
+        }
 
-            comboBoxBaud.Items.Clear();
-            comboBoxBaud.Items.AddRange(this.baudList);
-            if (comboBoxBaud.Items.Count > 0)
-                comboBoxBaud.SelectedIndex = comboBoxBaud.Items.Count - 1;
+        private void btConnect_Click(object sender, EventArgs e)
+        {
 
-            comboBoxCOMPort.Items.Clear();
-            comboBoxCOMPort.Items.AddRange(SerialPort.GetPortNames());
-            if (comboBoxCOMPort.Items.Count > 0)
-                comboBoxCOMPort.SelectedIndex = 0;
         }
     }
 }

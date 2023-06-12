@@ -17,7 +17,7 @@ namespace GL_M2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Image_01());
+            Application.Run(new Main());
         }
     }
 }

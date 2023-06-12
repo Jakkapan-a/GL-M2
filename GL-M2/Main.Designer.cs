@@ -228,6 +228,7 @@
             this.btConnect.TabIndex = 29;
             this.btConnect.Text = "Connect";
             this.btConnect.UseVisualStyleBackColor = true;
+            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
             // 
             // pgCam
             // 
@@ -290,9 +291,7 @@
             this.PerformLayout();
 
         }
-
         #endregion
-
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
