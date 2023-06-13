@@ -138,6 +138,12 @@
     <Compile Include="Forms\Models.Designer.cs">
       <DependentUpon>Models.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Rectangles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Rectangles.Designer.cs">
+      <DependentUpon>Rectangles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.Capture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,6 +162,9 @@
     <Compile Include="Utilities\TCapture.cs" />
     <EmbeddedResource Include="Forms\Models.resx">
       <DependentUpon>Models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Rectangles.resx">
+      <DependentUpon>Rectangles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

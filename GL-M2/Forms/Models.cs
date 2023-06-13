@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-
+using Rec = GL_M2.Forms.Rectangles;
 namespace GL_M2.Forms
 {
     public partial class Models : Form
@@ -306,6 +306,19 @@ namespace GL_M2.Forms
                 model.Delete();
                 RenderTable();
             }
+        }
+
+        private Forms.Rectangles rectangles;
+        private void btnSet_Click(object sender, EventArgs e)
+        {
+            rectangles?.Dispose();
+            if(this.id == 0)
+            {
+                MessageBox.Show("Please select model", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            rectangles = new Forms.Rectangles(this.id);
+            rectangles.Show();
         }
     }
 }
