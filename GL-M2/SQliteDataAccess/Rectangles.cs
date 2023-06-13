@@ -16,6 +16,14 @@ namespace GL_M2.SQliteDataAccess
         public int height { get; set; }
         public string created_at { get; set; }
         public string updated_at { get; set; }
+
+        public Rectangles()
+        {
+            this.x = 0; 
+            this.y = 0; 
+            this.width = 0; 
+            this.height = 0;
+        }
         /// <summary>
         /// Save rectangle to database
         /// </summary>
@@ -49,7 +57,6 @@ namespace GL_M2.SQliteDataAccess
             parameters.Add("@updated_at", SQLiteDataAccess.GetDateTimeNow());
             SQLiteDataAccess.Execute(sql, parameters);
         }
-
         /// <summary>
         /// Delete rectangle from database
         /// </summary>
@@ -59,6 +66,56 @@ namespace GL_M2.SQliteDataAccess
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", this.id);
             SQLiteDataAccess.Execute(sql, parameters);
+        }
+
+        /// <summary>
+        /// Get all rectangles from database
+        /// </summary>
+        /// <returns></returns>
+        public static List<Rectangles> GetAll()
+        {
+            string sql = "SELECT * FROM rectangles ORDER BY id DESC LIMIT 100";
+            return SQLiteDataAccess.Query<Rectangles>(sql);
+        }
+
+        /// <summary>
+        /// Get rectangle by id from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Rectangles Get(int id)
+        {
+            string sql = "SELECT * FROM rectangles WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            return SQLiteDataAccess.Query<Rectangles>(sql, parameters).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Get rectangles by model_id from database
+        /// </summary>
+        /// <param name="model_id"></param>
+        /// <returns></returns>
+        public static List<Rectangles> GetByModelId(int model_id)
+        {
+            string sql = "SELECT * FROM rectangles WHERE model_id = @model_id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@model_id", model_id);
+            return SQLiteDataAccess.Query<Rectangles>(sql, parameters);
+        }
+
+        /// <summary>
+        /// Get rectangles by model_id from database
+        /// </summary>
+        /// <param name="model_id"></param>
+        /// <returns></returns>
+        public static List<Rectangles> GetByModelIdAndDate(int model_id, string date)
+        {
+            string sql = "SELECT * FROM rectangles WHERE model_id = @model_id AND created_at LIKE @date";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@model_id", model_id);
+            parameters.Add("@date", date + "%");
+            return SQLiteDataAccess.Query<Rectangles>(sql, parameters);
         }
     }
 }

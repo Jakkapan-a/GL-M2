@@ -91,6 +91,24 @@ namespace GL_M2.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ./system/images.
+        /// </summary>
+        internal static string path_image {
+            get {
+                return ResourceManager.GetString("path_image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ./system.
+        /// </summary>
+        internal static string path_system {
+            get {
+                return ResourceManager.GetString("path_system", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap search_32 {

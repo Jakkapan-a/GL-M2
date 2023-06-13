@@ -56,7 +56,100 @@ namespace GL_M2.SQliteDataAccess
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@id", this.id);
             SQLiteDataAccess.Execute(sql, parameters);
+        }
 
+        /// <summary>
+        /// Get all models from database
+        /// </summary>
+        /// <returns></returns>
+        public static List<Models> GetAll()
+        {
+            string sql = "SELECT * FROM models ORDER BY id DESC LIMIT 100";
+            return SQLiteDataAccess.Query<Models>(sql);
+        }
+
+        /// <summary>
+        /// Get model by id from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Models Get(int id)
+        {
+            string sql = "SELECT * FROM models WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            return SQLiteDataAccess.Query<Models>(sql, parameters).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Get model by start limit from database
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public static List<Models> Get(int start, int limit)
+        {
+            string sql = "SELECT * FROM models ORDER BY id DESC LIMIT @start, @limit";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@start", start);
+            parameters.Add("@limit", limit);
+            return SQLiteDataAccess.Query<Models>(sql, parameters);
+        }
+
+        /// <summary>
+        /// Get model by name from database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static List<Models> Get(string name)
+        {
+            string sql = "SELECT * FROM models WHERE name LIKE @name";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", "%"+name+"%");
+            return SQLiteDataAccess.Query<Models>(sql, parameters);
+        }
+
+        /// <summary>
+        /// Get model by name and id from database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Models Get(string name, int id)
+        {
+            string sql = "SELECT * FROM models WHERE name = @name AND id != @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", name);
+            parameters.Add("@id", id);
+            return SQLiteDataAccess.Query<Models>(sql, parameters).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// IsExist bool by name from database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool IsExist(string name)
+        {
+            string sql = "SELECT * FROM models WHERE name = @name";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", name);
+            return SQLiteDataAccess.Query<Models>(sql, parameters).Any();
+        }
+
+        /// <summary>
+        /// IsExist bool by name and id from database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static bool IsExist(string name, int id)
+        {
+            string sql = "SELECT * FROM models WHERE name = @name AND id != @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", name);
+            parameters.Add("@id", id);
+            return SQLiteDataAccess.Query<Models>(sql, parameters).Any();
         }
     }
 }
