@@ -17,16 +17,13 @@ namespace GL_M2
 {
     public partial class Main : Form
     {
-        private readonly TCapture capture;
+       
         private List<Rectangle> rectangles;
 
         public Main()
         {
             InitializeComponent();
-            capture = new TCapture();
-            capture.OnFrameHeader += Capture_OnFrameHeader;
-            capture.OnVideoStarted += Capture_OnVideoStarted;
-            capture.OnVideoStop += Capture_OnVideoStop;
+            InitializeCapture();         
 
             rectangles = new List<Rectangle>();
         }
@@ -95,6 +92,13 @@ namespace GL_M2
                 await capture.StopAsync();
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private Forms.Models models;
+        private void modelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            models?.Dispose();
+            models = new Forms.Models();
+            models.Show();
         }
     }
 }

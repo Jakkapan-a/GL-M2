@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GL_M2.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,6 +10,15 @@ namespace GL_M2
 {
     partial class Main
     {
+        private TCapture capture;
+
+        private void InitializeCapture()
+        {
+            capture = new TCapture();
+            capture.OnFrameHeader += Capture_OnFrameHeader;
+            capture.OnVideoStarted += Capture_OnVideoStarted;
+            capture.OnVideoStop += Capture_OnVideoStop;
+        }
         private void Capture_OnVideoStop()
         {
             pgCam.Image?.Dispose();
@@ -29,7 +39,6 @@ namespace GL_M2
 
             pgCam.Image?.Dispose();
             pgCam.Image = (Image)bitmap.Clone();
-
 
         }
     }
