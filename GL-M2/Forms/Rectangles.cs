@@ -103,6 +103,7 @@ namespace GL_M2.Forms
                 dgvRectangles.Rows[0].Selected = true;
                 dgvRectangles.CurrentCell = dgvRectangles.Rows[0].Cells[1];
             }
+
         }
 
         private string getRectanglesName(SQliteDataAccess.Rectangles rectangles)
@@ -112,14 +113,8 @@ namespace GL_M2.Forms
         }
         private void btnNew_Click(object sender, EventArgs e)
         {
-            npX.Enabled = true;
-            npY.Enabled = true;
-            npWidth.Enabled = true;
-            npHeight.Enabled = true;
-            btnSave.Enabled = true;
-
+            SetControlStates(true);
             id = 0;
-
             npX.Value = 0;
             npY.Value = 0;
             npWidth.Value = 10;
@@ -128,58 +123,79 @@ namespace GL_M2.Forms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            npX.Enabled = true;
-            npY.Enabled = true;
-            npWidth.Enabled = true;
-            npHeight.Enabled = true;
-            btnSave.Enabled = true;
+            SetControlStates(true);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+            if (id > 0)
+            {
+                var result = MessageBox.Show("Are you sure you want to delete this rectangle?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    SQliteDataAccess.Rectangles.Delete(id);
+                    RenderTable();
+                    SelectTableRow(selectedRow);
+                }
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Validate
-            if (npX.Value == 0 || npY.Value == 0 || npWidth.Value == 0 || npHeight.Value == 0)
-            {
-                MessageBox.Show("Please enter all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            if (!ValidateNumericInputs()) return;
             // Save
-            SQliteDataAccess.Rectangles rectangles = new SQliteDataAccess.Rectangles();
-            rectangles.model_id = this.model_id;
-            rectangles.x = (int)npX.Value;
-            rectangles.y = (int)npY.Value;
-            rectangles.width = (int)npWidth.Value;
-            rectangles.height = (int)npHeight.Value;
+            var rectangle = CreateRectangle();
 
             if (id > 0)
             {
-                rectangles.id = id;
-                rectangles.Update();
+                rectangle.id = id;
+                rectangle.Update();
             }
             else
             {
-                rectangles.Save();
+                rectangle.Save();
             }
 
             // Reload table
             RenderTable();
 
-            npX.Enabled = false;
-            npY.Enabled = false;
-            npWidth.Enabled = false;
-            npHeight.Enabled = false;
-            btnSave.Enabled = false;
+            SetControlStates(false);
+        }
+
+        private bool ValidateNumericInputs()
+        {
+            if (npX.Value == 0 || npY.Value == 0 || npWidth.Value == 0 || npHeight.Value == 0)
+            {
+                MessageBox.Show("Please enter all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+        private SQliteDataAccess.Rectangles CreateRectangle()
+        {
+            return new SQliteDataAccess.Rectangles()
+            {
+                model_id = this.model_id,
+                x = (int)npX.Value,
+                y = (int)npY.Value,
+                width = (int)npWidth.Value,
+                height = (int)npHeight.Value
+            };
+        }
+
+        private void SetControlStates(bool isEnabled)
+        {
+            npX.Enabled = isEnabled;
+            npY.Enabled = isEnabled;
+            // npWidth.Enabled = isEnabled;
+            // npHeight.Enabled = isEnabled;
+            btnSave.Enabled = isEnabled;
         }
 
         private void np_ValueChanged(object sender, EventArgs e)
         {
-
+            DrawRectanglesOnImage();
         }
         private void DrawRectanglesOnImage()
         {
@@ -190,13 +206,13 @@ namespace GL_M2.Forms
 
                 foreach (var rec in rectangles)
                 {
-                    Color color = rec.id == id ? Color.Blue : Color.Red;
+                    Color color = rec.id == id ? Properties.Settings.Default.new_color : Properties.Settings.Default.color;
                     DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
                 }
 
                 if (id == 0)
                 {
-                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Color.Yellow);
+                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.selected_color);
                 }
 
                 UpdatePictureBoxImage(bitmap);
@@ -216,24 +232,6 @@ namespace GL_M2.Forms
             scrollablePictureBox.Image?.Dispose();
             scrollablePictureBox.Image = (Image)newImage.Clone();
         }
-        private void DrawRectangleToImage(int x, int y, int width, int height)
-        {
-            using (Bitmap bmp = new Bitmap(scrollablePictureBox.Image.Width, scrollablePictureBox.Image.Height))
-            {
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    // draw the image onto the graphics
-                    g.DrawImage(image, 0, 0);
-                    g.DrawRectangle(new Pen(Color.Green, 2), x, y, width, height);
-                }
-
-                scrollablePictureBox.Image?.Dispose();
-                scrollablePictureBox.Image = (Image)bmp.Clone();
-            }
-
-            scrollablePictureBox.Update();
-        }
-
         private void DrawRectangleToImage(Bitmap bitmap, int x, int y, int width, int height)
         {
             if (bitmap == null) return;
@@ -248,6 +246,8 @@ namespace GL_M2.Forms
             if (dgvRectangles.SelectedRows.Count == 0) return;
             selectedRow = dgvRectangles.SelectedRows[0].Index;
             id = (int)dgvRectangles.SelectedRows[0].Cells["ID"].Value;
+            toolStripStatusLabel_Id.Text = "ID : " + id;
+
             SQliteDataAccess.Rectangles rectangles = SQliteDataAccess.Rectangles.Get(id);
             npX.Value = rectangles.x;
             npY.Value = rectangles.y;

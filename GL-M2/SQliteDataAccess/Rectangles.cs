@@ -69,6 +69,17 @@ namespace GL_M2.SQliteDataAccess
         }
 
         /// <summary>
+        /// Delete rectangle from database
+        /// </summary>
+        public static void Delete(int id)
+        {
+            string sql = "DELETE FROM rectangles WHERE id = @id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@id", id);
+            SQLiteDataAccess.Execute(sql, parameters);
+        }
+        
+        /// <summary>
         /// Get all rectangles from database
         /// </summary>
         /// <returns></returns>

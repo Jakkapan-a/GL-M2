@@ -48,6 +48,8 @@
             this.dgvRectangles = new System.Windows.Forms.DataGridView();
             this.timer_image = new System.Windows.Forms.Timer(this.components);
             this.scrollablePictureBox = new System.Windows.Forms.PictureBox();
+            this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npHeight)).BeginInit();
@@ -61,6 +63,8 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel_Id});
             this.statusStrip1.Location = new System.Drawing.Point(0, 632);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1048, 22);
@@ -306,6 +310,12 @@
             this.scrollablePictureBox.TabIndex = 0;
             this.scrollablePictureBox.TabStop = false;
             // 
+            // toolStripStatusLabel_Id
+            // 
+            this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
+            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
+            this.toolStripStatusLabel_Id.Text = "-";
+            // 
             // Rectangles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,6 +328,8 @@
             this.Text = "Rectangles";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Rectangles_Load);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -355,5 +367,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer_image;
         private System.Windows.Forms.PictureBox scrollablePictureBox;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Id;
     }
 }
