@@ -19,17 +19,32 @@ namespace GL_M2.Forms
         public Models()
         {
             InitializeComponent();
-
+           
         }
 
         private int id;
-        private bool isRandersTable = false;
+        private bool isRenderingTable  = false;
         private STATUS status;
         private void Models_Load(object sender, EventArgs e)
         {
             RenderTable();
             status = STATUS.NONE;
             Directory.CreateDirectory(Properties.Resources.path_image);
+            // Get selected old row
+            isRenderingTable = false;
+            selectedRow = 1;
+            SelectTableRow(1);
+            SelectTableRow(0);
+            selectedRow = -1;
+        }
+
+        private void SelectTableRow(int rowIndex)
+        {
+            if (rowIndex != -1 && rowIndex < dgvModels.Rows.Count && dgvModels.Rows.Count > 1)
+            {
+                dgvModels.Rows[rowIndex].Selected = true;
+                dgvModels.CurrentCell = dgvModels.Rows[rowIndex].Cells[1];
+            }
         }
 
         private void RenderTable()
@@ -44,10 +59,10 @@ namespace GL_M2.Forms
             RenderDataTable(models);
         }
 
-        private int selectOldRow = -1;
+        private int selectedRow = -1;
         private void RenderDataTable(IEnumerable<SQliteDataAccess.Models> models)
         {
-            isRandersTable = false;
+            isRenderingTable  = true;
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(int));
             dt.Columns.Add("no", typeof(int));
@@ -79,14 +94,15 @@ namespace GL_M2.Forms
             // Set column  No width 15%
             dgvModels.Columns["No"].Width = dgvModels.Width * 15 / 100;
 
-            isRandersTable = false;
+            isRenderingTable  = false;
 
             // Get selected old row
-            if (selectOldRow != -1 && selectOldRow < dgvModels.Rows.Count && dgvModels.Rows.Count > 0)
+            if (selectedRow != -1 && selectedRow < dgvModels.Rows.Count && dgvModels.Rows.Count > 0)
             {
-                dgvModels.Rows[selectOldRow].Selected = true;
-                dgvModels.CurrentCell = dgvModels.Rows[selectOldRow].Cells[1];
-            }else if (dgvModels.Rows.Count > 0)
+                dgvModels.Rows[selectedRow].Selected = true;
+                dgvModels.CurrentCell = dgvModels.Rows[selectedRow].Cells[1];
+            }
+            else if (dgvModels.Rows.Count > 0)
             {
                 dgvModels.Rows[0].Selected = true;
                 dgvModels.CurrentCell = dgvModels.Rows[0].Cells[1];
@@ -96,7 +112,7 @@ namespace GL_M2.Forms
 
         private void dgvModels_SelectionChanged(object sender, EventArgs e)
         {
-            if (isRandersTable)
+            if (isRenderingTable )
                 return;
 
             // Get selected row id
@@ -117,12 +133,18 @@ namespace GL_M2.Forms
                 {
                     using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, dgvModels.SelectedRows[0].Cells["Image"].Value.ToString()), FileMode.Open, FileAccess.Read))
                     {
-                      
+
                         pgMaster.Image = Image.FromStream(fs);
                     }
                 }
+                else
+                {
+                    pgMaster.Image?.Dispose();
+                    pgMaster.Image = null;
+
+                }
                 // Save selected row
-                selectOldRow = dgvModels.SelectedRows[0].Index;
+                selectedRow = dgvModels.SelectedRows[0].Index;
             }
 
             status = STATUS.NONE;
@@ -187,7 +209,14 @@ namespace GL_M2.Forms
         private void btnEdit_Click(object sender, EventArgs e)
         {
             isImageChange = false;
-            InitiateInputFields();
+            // Enable text
+            txtModel.Enabled = true;
+            txtDescription.Enabled = true;
+            btnLoad.Enabled = true;
+            // Set focus
+            this.ActiveControl = txtModel;
+            txtModel.Focus();
+
             status = STATUS.EDIT;
         }
 
@@ -213,7 +242,7 @@ namespace GL_M2.Forms
                 model.description = txtDescription.Text.Trim();
                 model.image = filename;
                 model.Save();
-                selectOldRow++;
+                selectedRow++;
             }
             else if (this.id > 0)
             {
@@ -265,10 +294,11 @@ namespace GL_M2.Forms
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (txtSearch.Text == string.Empty) {
+            if (txtSearch.Text == string.Empty)
+            {
                 RenderTable();
                 return;
-            } 
+            }
             RenderTable(txtSearch.Text.Trim());
 
             this.id = 0;
@@ -312,13 +342,29 @@ namespace GL_M2.Forms
         private void btnSet_Click(object sender, EventArgs e)
         {
             rectangles?.Dispose();
-            if(this.id == 0)
+            if (this.id == 0)
             {
                 MessageBox.Show("Please select model", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             rectangles = new Forms.Rectangles(this.id);
             rectangles.Show();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            // Open file dialog image only
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+            openFileDialog.Title = "Select image";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Load image read only
+                using (Stream stream = File.OpenRead(openFileDialog.FileName))
+                {
+                    pgMaster.Image = Image.FromStream(stream);
+                }
+            }
         }
     }
 }
