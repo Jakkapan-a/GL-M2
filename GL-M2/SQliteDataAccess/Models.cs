@@ -108,7 +108,13 @@ namespace GL_M2.SQliteDataAccess
             parameters.Add("@name", "%"+name+"%");
             return SQLiteDataAccess.Query<Models>(sql, parameters);
         }
-
+        public static Models GetByName(string name)
+        {
+            string sql = "SELECT * FROM models WHERE name = @name";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", name );
+            return SQLiteDataAccess.Query<Models>(sql, parameters).FirstOrDefault() as Models;
+        }
         /// <summary>
         /// Get model by name and id from database
         /// </summary>

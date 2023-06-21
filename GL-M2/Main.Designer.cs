@@ -33,31 +33,35 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel_Left = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbModels = new System.Windows.Forms.ComboBox();
+            this.txtModels = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btConnect = new System.Windows.Forms.Button();
+            this.btRefresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxCOMPort = new System.Windows.Forms.ComboBox();
             this.comboBoxBaud = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxCamera = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel_Main = new System.Windows.Forms.Panel();
             this.pgCam = new System.Windows.Forms.PictureBox();
-            this.btRefresh = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.modelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbTitle = new System.Windows.Forms.Label();
+            this.timerTest = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_Left.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgCam)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -89,28 +93,31 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.testToolStripMenuItem.Text = "Test";
+            // 
+            // modelsToolStripMenuItem
+            // 
+            this.modelsToolStripMenuItem.Name = "modelsToolStripMenuItem";
+            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.modelsToolStripMenuItem.Text = "Models";
+            this.modelsToolStripMenuItem.Click += new System.EventHandler(this.modelsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel_Id});
             this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabel_Id
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 500;
+            this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
+            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
+            this.toolStripStatusLabel_Id.Text = "-";
             // 
             // panel_Left
             // 
@@ -126,12 +133,31 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbModels);
+            this.groupBox2.Controls.Add(this.txtModels);
             this.groupBox2.Location = new System.Drawing.Point(5, 16);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(219, 157);
+            this.groupBox2.Size = new System.Drawing.Size(219, 95);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Select";
+            this.groupBox2.Text = "Select models";
+            // 
+            // cbModels
+            // 
+            this.cbModels.FormattingEnabled = true;
+            this.cbModels.Location = new System.Drawing.Point(14, 57);
+            this.cbModels.Name = "cbModels";
+            this.cbModels.Size = new System.Drawing.Size(197, 21);
+            this.cbModels.TabIndex = 1;
+            this.cbModels.SelectedIndexChanged += new System.EventHandler(this.cbModels_SelectedIndexChanged);
+            // 
+            // txtModels
+            // 
+            this.txtModels.Location = new System.Drawing.Point(14, 31);
+            this.txtModels.Name = "txtModels";
+            this.txtModels.Size = new System.Drawing.Size(197, 20);
+            this.txtModels.TabIndex = 0;
+            this.txtModels.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtModels_KeyDown);
             // 
             // groupBox1
             // 
@@ -164,6 +190,18 @@
             this.btConnect.Text = "Connect";
             this.btConnect.UseVisualStyleBackColor = true;
             this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
+            // 
+            // btRefresh
+            // 
+            this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btRefresh.BackgroundImage = global::GL_M2.Properties.Resources._refresh_32;
+            this.btRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btRefresh.Location = new System.Drawing.Point(6, 167);
+            this.btRefresh.Name = "btRefresh";
+            this.btRefresh.Size = new System.Drawing.Size(25, 23);
+            this.btRefresh.TabIndex = 30;
+            this.btRefresh.UseVisualStyleBackColor = true;
+            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
             // 
             // label5
             // 
@@ -222,39 +260,6 @@
             this.comboBoxCamera.Size = new System.Drawing.Size(111, 21);
             this.comboBoxCamera.TabIndex = 23;
             // 
-            // panel_Main
-            // 
-            this.panel_Main.Controls.Add(this.pgCam);
-            this.panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_Main.Location = new System.Drawing.Point(0, 24);
-            this.panel_Main.Name = "panel_Main";
-            this.panel_Main.Padding = new System.Windows.Forms.Padding(10);
-            this.panel_Main.Size = new System.Drawing.Size(1035, 635);
-            this.panel_Main.TabIndex = 3;
-            // 
-            // pgCam
-            // 
-            this.pgCam.BackColor = System.Drawing.Color.Black;
-            this.pgCam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgCam.Location = new System.Drawing.Point(10, 10);
-            this.pgCam.Name = "pgCam";
-            this.pgCam.Size = new System.Drawing.Size(1015, 615);
-            this.pgCam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pgCam.TabIndex = 0;
-            this.pgCam.TabStop = false;
-            // 
-            // btRefresh
-            // 
-            this.btRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btRefresh.BackgroundImage = global::GL_M2.Properties.Resources._refresh_32;
-            this.btRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btRefresh.Location = new System.Drawing.Point(6, 167);
-            this.btRefresh.Name = "btRefresh";
-            this.btRefresh.Size = new System.Drawing.Size(25, 23);
-            this.btRefresh.TabIndex = 30;
-            this.btRefresh.UseVisualStyleBackColor = true;
-            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::GL_M2.Properties.Resources.camera_logo;
@@ -265,12 +270,47 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // modelsToolStripMenuItem
+            // panel_Main
             // 
-            this.modelsToolStripMenuItem.Name = "modelsToolStripMenuItem";
-            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.modelsToolStripMenuItem.Text = "Models";
-            this.modelsToolStripMenuItem.Click += new System.EventHandler(this.modelsToolStripMenuItem_Click);
+            this.panel_Main.Controls.Add(this.lbTitle);
+            this.panel_Main.Controls.Add(this.pgCam);
+            this.panel_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_Main.Location = new System.Drawing.Point(0, 24);
+            this.panel_Main.Name = "panel_Main";
+            this.panel_Main.Padding = new System.Windows.Forms.Padding(10);
+            this.panel_Main.Size = new System.Drawing.Size(1035, 635);
+            this.panel_Main.TabIndex = 3;
+            // 
+            // pgCam
+            // 
+            this.pgCam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgCam.BackColor = System.Drawing.Color.Black;
+            this.pgCam.Location = new System.Drawing.Point(10, 54);
+            this.pgCam.Name = "pgCam";
+            this.pgCam.Size = new System.Drawing.Size(1015, 571);
+            this.pgCam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pgCam.TabIndex = 0;
+            this.pgCam.TabStop = false;
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbTitle.BackColor = System.Drawing.Color.Yellow;
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitle.Location = new System.Drawing.Point(154, 10);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(726, 34);
+            this.lbTitle.TabIndex = 1;
+            this.lbTitle.Text = "----------------------";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // timerTest
+            // 
+            this.timerTest.Interval = 500;
+            this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
             // 
             // Main
             // 
@@ -293,11 +333,13 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panel_Left.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel_Main.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pgCam)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,10 +348,9 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Id;
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel_Left;
         private System.Windows.Forms.PictureBox pgCam;
         private System.Windows.Forms.Panel panel_Main;
@@ -325,6 +366,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxCamera;
         private System.Windows.Forms.ToolStripMenuItem modelsToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtModels;
+        private System.Windows.Forms.ComboBox cbModels;
+        private System.Windows.Forms.Label lbTitle;
+        private System.Windows.Forms.Timer timerTest;
     }
 }
 

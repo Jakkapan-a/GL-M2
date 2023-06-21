@@ -11,5 +11,8 @@
     <Setting Name="new_point_color" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Yellow</Value>
     </Setting>
+    <Setting Name="config_percent" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

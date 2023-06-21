@@ -212,7 +212,14 @@ namespace GL_M2.Forms
                     foreach (var rec in rectangles)
                     {
                         Color color = rec.id == id ? Properties.Settings.Default.current_point_color : Properties.Settings.Default.point_color;
-                        DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
+                        if(rec.id == id)
+                        {
+                            DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, color);
+                        }
+                        else
+                        {
+                            DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
+                        }
                     }
                 }
                

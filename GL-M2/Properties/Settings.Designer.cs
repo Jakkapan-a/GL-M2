@@ -58,5 +58,17 @@ namespace GL_M2.Properties {
                 this["new_point_color"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int config_percent {
+            get {
+                return ((int)(this["config_percent"]));
+            }
+            set {
+                this["config_percent"] = value;
+            }
+        }
     }
 }

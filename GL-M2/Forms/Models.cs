@@ -39,9 +39,9 @@ namespace GL_M2.Forms
             selectedRow = -1;
         }
 
-        private void SelectTableRow(int rowIndex)
+        private void SelectTableRow(int rowIndex ,int columnIndex = 1)
         {
-            if (rowIndex != -1 && rowIndex < dgvModels.Rows.Count && dgvModels.Rows.Count > 1)
+            if (rowIndex != -1 && rowIndex < dgvModels.Rows.Count && dgvModels.Rows.Count > columnIndex)
             {
                 dgvModels.Rows[rowIndex].Selected = true;
                 dgvModels.CurrentCell = dgvModels.Rows[rowIndex].Cells[1];
@@ -98,16 +98,7 @@ namespace GL_M2.Forms
             isRenderingTable  = false;
 
             // Get selected old row
-            if (selectedRow != -1 && selectedRow < dgvModels.Rows.Count && dgvModels.Rows.Count > 0)
-            {
-                dgvModels.Rows[selectedRow].Selected = true;
-                dgvModels.CurrentCell = dgvModels.Rows[selectedRow].Cells[1];
-            }
-            else if (dgvModels.Rows.Count > 0)
-            {
-                dgvModels.Rows[0].Selected = true;
-                dgvModels.CurrentCell = dgvModels.Rows[0].Cells[1];
-            }
+            SelectTableRow(selectedRow, 0);
 
         }
 

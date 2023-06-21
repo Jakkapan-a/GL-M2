@@ -28,7 +28,7 @@ namespace GL_M2
         {
 
         }
-
+        public Image image;
         private void Capture_OnFrameHeader(Bitmap bitmap)
         {
             if (InvokeRequired)
@@ -36,10 +36,29 @@ namespace GL_M2
                 Invoke(new Action(()=> Capture_OnFrameHeader(bitmap)));
                 return;
             }
+            image?.Dispose();
+            image = (Image)bitmap.Clone();
+            using(Bitmap bmp = new Bitmap(image.Width, image.Height))
+            {
+                using(Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.DrawImage(image, 0, 0, bitmap.Width, bitmap.Height);
+                    if(rectangles != null && rectangles.Count > 0){
+                        foreach (var rectangle in rectangles)
+                        {
+                            g.DrawRectangle(new Pen(Properties.Settings.Default.point_color, 2), rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
-            pgCam.Image?.Dispose();
-            pgCam.Image = (Image)bitmap.Clone();
+                            /*
+                                Code more....
+                            */
 
+                        }
+                    }
+                }
+
+                pgCam.Image?.Dispose();
+                pgCam.Image = (Image)bmp.Clone();
+            }
         }
     }
 }
