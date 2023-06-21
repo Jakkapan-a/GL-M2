@@ -12,7 +12,7 @@ namespace GL_M2.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,36 +26,36 @@ namespace GL_M2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Red")]
-        public global::System.Drawing.Color color {
+        public global::System.Drawing.Color point_color {
             get {
-                return ((global::System.Drawing.Color)(this["color"]));
+                return ((global::System.Drawing.Color)(this["point_color"]));
             }
             set {
-                this["color"] = value;
+                this["point_color"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Green")]
-        public global::System.Drawing.Color selected_color {
+        public global::System.Drawing.Color current_point_color {
             get {
-                return ((global::System.Drawing.Color)(this["selected_color"]));
+                return ((global::System.Drawing.Color)(this["current_point_color"]));
             }
             set {
-                this["selected_color"] = value;
+                this["current_point_color"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
-        public global::System.Drawing.Color new_color {
+        public global::System.Drawing.Color new_point_color {
             get {
-                return ((global::System.Drawing.Color)(this["new_color"]));
+                return ((global::System.Drawing.Color)(this["new_point_color"]));
             }
             set {
-                this["new_color"] = value;
+                this["new_point_color"] = value;
             }
         }
     }

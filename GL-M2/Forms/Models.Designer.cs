@@ -35,14 +35,14 @@
             this.dgvModels = new System.Windows.Forms.DataGridView();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnSet = new System.Windows.Forms.Button();
+            this.btnPreview = new System.Windows.Forms.Button();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.RichTextBox();
@@ -88,14 +88,14 @@
             this.groupBox1.Controls.Add(this.dgvModels);
             this.groupBox1.Controls.Add(this.btnLoad);
             this.groupBox1.Controls.Add(this.btnSearch);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.btnSet);
+            this.groupBox1.Controls.Add(this.btnPreview);
+            this.groupBox1.Controls.Add(this.btnConfig);
             this.groupBox1.Controls.Add(this.btnNew);
             this.groupBox1.Controls.Add(this.btnEdit);
             this.groupBox1.Controls.Add(this.btnSave);
             this.groupBox1.Controls.Add(this.btnDelete);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtDescription);
@@ -117,12 +117,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvModels.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvModels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvModels.Location = new System.Drawing.Point(552, 205);
+            this.dgvModels.Location = new System.Drawing.Point(577, 172);
             this.dgvModels.Name = "dgvModels";
             this.dgvModels.ReadOnly = true;
             this.dgvModels.RowHeadersVisible = false;
             this.dgvModels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvModels.Size = new System.Drawing.Size(344, 286);
+            this.dgvModels.Size = new System.Drawing.Size(319, 319);
             this.dgvModels.TabIndex = 5;
             this.dgvModels.SelectionChanged += new System.EventHandler(this.dgvModels_SelectionChanged);
             // 
@@ -142,33 +142,34 @@
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.BackgroundImage = global::GL_M2.Properties.Resources.search_32;
             this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnSearch.Location = new System.Drawing.Point(873, 176);
+            this.btnSearch.Location = new System.Drawing.Point(873, 143);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(23, 23);
             this.btnSearch.TabIndex = 3;
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // button2
+            // btnPreview
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(377, 502);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Preview";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPreview.Location = new System.Drawing.Point(377, 502);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(75, 23);
+            this.btnPreview.TabIndex = 5;
+            this.btnPreview.Text = "Preview";
+            this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // btnSet
+            // btnConfig
             // 
-            this.btnSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSet.Location = new System.Drawing.Point(458, 502);
-            this.btnSet.Name = "btnSet";
-            this.btnSet.Size = new System.Drawing.Size(75, 23);
-            this.btnSet.TabIndex = 6;
-            this.btnSet.Text = "Set";
-            this.btnSet.UseVisualStyleBackColor = true;
-            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+            this.btnConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConfig.Location = new System.Drawing.Point(458, 502);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 6;
+            this.btnConfig.Text = "Config";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // btnNew
             // 
@@ -219,22 +220,22 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(580, 179);
+            this.label3.Location = new System.Drawing.Point(580, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Search :";
             // 
-            // label4
+            // label5
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(555, 152);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(342, 10);
-            this.label4.TabIndex = 2;
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(577, 136);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(320, 5);
+            this.label5.TabIndex = 2;
             // 
             // label2
             // 
@@ -265,7 +266,7 @@
             this.txtDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.Location = new System.Drawing.Point(653, 56);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(244, 89);
+            this.txtDescription.Size = new System.Drawing.Size(244, 77);
             this.txtDescription.TabIndex = 1;
             this.txtDescription.Text = "";
             // 
@@ -278,12 +279,13 @@
             this.txtModel.Name = "txtModel";
             this.txtModel.Size = new System.Drawing.Size(193, 22);
             this.txtModel.TabIndex = 0;
+            this.txtModel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtModel_KeyDown);
             // 
             // txtSearch
             // 
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(653, 177);
+            this.txtSearch.Location = new System.Drawing.Point(653, 144);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(214, 22);
             this.txtSearch.TabIndex = 2;
@@ -346,10 +348,10 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtModel;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnSet;
+        private System.Windows.Forms.Button btnPreview;
+        private System.Windows.Forms.Button btnConfig;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_id;
         private Controls.ObservablePictureBox pgMaster;
+        private System.Windows.Forms.Label label5;
     }
 }

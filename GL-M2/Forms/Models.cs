@@ -1,4 +1,5 @@
-﻿using GL_M2.Utilities;
+﻿using GL_M2.Controls;
+using GL_M2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -135,6 +136,21 @@ namespace GL_M2.Forms
                     {
 
                         pgMaster.Image = Image.FromStream(fs);
+
+                        using (Bitmap bitmap = new Bitmap(pgMaster.Image.Width, pgMaster.Image.Height))
+                        using (Graphics graphics = Graphics.FromImage(bitmap))
+                        {
+                            graphics.DrawImage(this.pgMaster.Image, 0, 0);
+
+                            var rectangles = SQliteDataAccess.Rectangles.GetByModelId(this.id);
+
+                            foreach (var rec in rectangles)
+                            {
+                                Color color = Properties.Settings.Default.point_color;
+                                DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
+                            }
+                            UpdatePictureBoxImage(bitmap);
+                        }
                     }
                 }
                 else
@@ -148,6 +164,19 @@ namespace GL_M2.Forms
             }
 
             status = STATUS.NONE;
+        }
+        private void DrawRectangleToImage(Bitmap bitmap, int x, int y, int width, int height, Color color, float penWidth = 2)
+        {
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.DrawRectangle(new Pen(color, penWidth), x, y, width, height);
+            }
+        }
+
+        private void UpdatePictureBoxImage(Bitmap newImage)
+        {
+            pgMaster.Image?.Dispose();
+            pgMaster.Image = (Image)newImage.Clone();
         }
 
         private void InitiateInputFields()
@@ -202,6 +231,8 @@ namespace GL_M2.Forms
             InitiateInputFields();
             isImageChange = false;
             status = STATUS.NEW;
+            pgMaster.Image?.Dispose();
+            pgMaster.Image = null;
             // Clear selected row
             dgvModels.ClearSelection();
         }
@@ -364,6 +395,36 @@ namespace GL_M2.Forms
                 {
                     pgMaster.Image = Image.FromStream(stream);
                 }
+            }
+        }
+
+        private void txtModel_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                this.ActiveControl = txtDescription;
+                txtDescription.Focus();
+            }
+        }
+
+        private Preview preview;
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            preview?.Dispose();
+            if (pgMaster.Image == null) return;
+            if (id < 1) return;
+            var rectangles = SQliteDataAccess.Rectangles.GetByModelId(this.id);
+            using(Bitmap bitmap = new Bitmap(pgMaster.Image.Width, pgMaster.Image.Height))
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                foreach(var r in rectangles)
+                {
+                    graphics.DrawImage(pgMaster.Image, r.x, r.y, r.width, r.height);
+                    graphics.DrawRectangle(new Pen(Color.Red, 1), r.x, r.y, r.width, r.height);
+                }
+
+                preview = new Preview(bitmap);
+                preview.Show();
             }
         }
     }

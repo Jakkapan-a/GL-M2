@@ -46,6 +46,12 @@ namespace GL_M2.Forms
 
             SelectTableRow(1);
             SelectTableRow(0);
+
+            // Set default color
+            cbPoint.SelectedValue = Properties.Settings.Default.point_color;
+            cbCurrentPoint.SelectedValue = Properties.Settings.Default.current_point_color;
+            cbNewPoint.SelectedValue = Properties.Settings.Default.new_point_color;
+
         }
         private void SelectTableRow(int rowIndex, int columnIndex = 1)
         {
@@ -153,6 +159,7 @@ namespace GL_M2.Forms
             // Reload table
             RenderTable();
             SetControlStates(false);
+            DrawRectanglesOnImage();
         }
 
         private bool ValidateNumericInputs()
@@ -196,15 +203,23 @@ namespace GL_M2.Forms
             {
                 graphics.DrawImage(this.image, 0, 0);
 
-                foreach (var rec in rectangles)
+                if(rectangles.Count == 1)
                 {
-                    Color color = rec.id == id ? Properties.Settings.Default.selected_color : Properties.Settings.Default.color;
-                    DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
+                   DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.current_point_color);
                 }
+                else
+                {
+                    foreach (var rec in rectangles)
+                    {
+                        Color color = rec.id == id ? Properties.Settings.Default.current_point_color : Properties.Settings.Default.point_color;
+                        DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
+                    }
+                }
+               
 
                 if (id == 0)
                 {
-                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.new_color);
+                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.new_point_color);
                 }
 
                 // Get RGB value of pixel center of rectangle
@@ -270,6 +285,24 @@ namespace GL_M2.Forms
             npWidth.Enabled = false;
             npHeight.Enabled = false;
             btnSave.Enabled = false;
+        }
+
+        private void cbPoint_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox box = (ComboBox)sender;
+            switch(box.Name){
+                case "cbPoint":
+                    Properties.Settings.Default.point_color = cbPoint.SelectedValue;
+                    break;
+                case "cbCurrentPoint":
+                    Properties.Settings.Default.current_point_color = cbCurrentPoint.SelectedValue;
+                    break;
+                case "cbNewPoint":
+                    Properties.Settings.Default.new_point_color = cbNewPoint.SelectedValue;
+                    break;
+            }
+            Properties.Settings.Default.Save();
+            DrawRectanglesOnImage();
         }
     }
 }
