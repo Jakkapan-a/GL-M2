@@ -62,7 +62,7 @@ namespace GL_M2.Forms
         private int selectedRow = -1;
         private void RenderDataTable(IEnumerable<SQliteDataAccess.Models> models)
         {
-            isRenderingTable  = true;
+            isRenderingTable  = models.Count() == 1? false : true;
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(int));
             dt.Columns.Add("no", typeof(int));

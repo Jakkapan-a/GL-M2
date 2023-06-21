@@ -47,24 +47,27 @@ namespace GL_M2.Forms
             SelectTableRow(1);
             SelectTableRow(0);
         }
-        private void SelectTableRow(int rowIndex)
+        private void SelectTableRow(int rowIndex, int columnIndex = 1)
         {
-            if (rowIndex != -1 && rowIndex < dgvRectangles.Rows.Count && dgvRectangles.Rows.Count > 1)
+            if (rowIndex != -1 && rowIndex < dgvRectangles.Rows.Count && dgvRectangles.Rows.Count > columnIndex)
             {
                 dgvRectangles.Rows[rowIndex].Selected = true;
                 dgvRectangles.CurrentCell = dgvRectangles.Rows[rowIndex].Cells[1];
+            }else if(dgvRectangles.Rows.Count > 0)
+            {
+                dgvRectangles.Rows[0].Selected = true;
+                dgvRectangles.CurrentCell = dgvRectangles.Rows[0].Cells[1];
             }
         }
         private void RenderTable()
         {
-            //var models = SQliteDataAccess.Models.GetAll();
             rectangles = SQliteDataAccess.Rectangles.GetByModelId(this.model_id);
             RenderDataTable(rectangles);
         }
 
         private void RenderDataTable(IEnumerable<SQliteDataAccess.Rectangles> rectangles)
         {
-            isRenderingTable = true;
+            isRenderingTable = rectangles.Count() == 1? false : true;
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(int));
             dt.Columns.Add("no", typeof(int));
@@ -92,23 +95,13 @@ namespace GL_M2.Forms
 
             isRenderingTable = false;
 
-            // Get selected old row
-            if (selectedRow != -1 && selectedRow < dgvRectangles.Rows.Count && dgvRectangles.Rows.Count > 0)
-            {
-                dgvRectangles.Rows[selectedRow].Selected = true;
-                dgvRectangles.CurrentCell = dgvRectangles.Rows[selectedRow].Cells[1];
-            }
-            else if (dgvRectangles.Rows.Count > 0)
-            {
-                dgvRectangles.Rows[0].Selected = true;
-                dgvRectangles.CurrentCell = dgvRectangles.Rows[0].Cells[1];
-            }
-
+            // Get selected row
+            SelectTableRow(selectedRow,0);
         }
 
         private string getRectanglesName(SQliteDataAccess.Rectangles rectangles)
         {
-            return "XYWH : (" + rectangles.x + ", " + rectangles.y + ", " + rectangles.width + ", " + rectangles.height + ")";
+            return "X,Y,W,H :(" + rectangles.x + ", " + rectangles.y + ", " + rectangles.width + ", " + rectangles.height + ")";
 
         }
         private void btnNew_Click(object sender, EventArgs e)
@@ -159,7 +152,6 @@ namespace GL_M2.Forms
 
             // Reload table
             RenderTable();
-
             SetControlStates(false);
         }
 
@@ -206,14 +198,33 @@ namespace GL_M2.Forms
 
                 foreach (var rec in rectangles)
                 {
-                    Color color = rec.id == id ? Properties.Settings.Default.new_color : Properties.Settings.Default.color;
+                    Color color = rec.id == id ? Properties.Settings.Default.selected_color : Properties.Settings.Default.color;
                     DrawRectangleToImage(bitmap, rec.x, rec.y, rec.width, rec.height, color);
                 }
 
                 if (id == 0)
                 {
-                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.selected_color);
+                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.new_color);
                 }
+
+                // Get RGB value of pixel center of rectangle
+                int x = (int)npX.Value + (int)npWidth.Value / 2;
+                int y = (int)npY.Value + (int)npHeight.Value / 2;
+
+                Color pixelColor = bitmap.GetPixel(x, y);
+                pgColor.BackColor = pixelColor;
+
+                lbR.BackColor = Color.FromArgb(pixelColor.R, 0, 0);
+                lbG.BackColor = Color.FromArgb(0, pixelColor.G, 0);
+                lbB.BackColor = Color.FromArgb(0, 0, pixelColor.B);
+                // Invert text color for better visibility
+                lbR.ForeColor = Color.FromArgb(255 - pixelColor.R, 255, 255);
+                lbG.ForeColor = Color.FromArgb(255, 255 - pixelColor.G, 255);
+                lbB.ForeColor = Color.FromArgb(255, 255, 255 - pixelColor.B);
+
+                txtR.Text = pixelColor.R.ToString();
+                txtG.Text = pixelColor.G.ToString();
+                txtB.Text = pixelColor.B.ToString();
 
                 UpdatePictureBoxImage(bitmap);
             }

@@ -30,35 +30,41 @@
         {
             this.components = new System.ComponentModel.Container();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pgColor = new System.Windows.Forms.PictureBox();
             this.npHeight = new System.Windows.Forms.NumericUpDown();
             this.npWidth = new System.Windows.Forms.NumericUpDown();
             this.npX = new System.Windows.Forms.NumericUpDown();
             this.npY = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.scrollablePictureBox = new System.Windows.Forms.PictureBox();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.dgvRectangles = new System.Windows.Forms.DataGridView();
             this.timer_image = new System.Windows.Forms.Timer(this.components);
-            this.scrollablePictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lbR = new System.Windows.Forms.Label();
+            this.lbG = new System.Windows.Forms.Label();
+            this.lbB = new System.Windows.Forms.Label();
+            this.txtR = new System.Windows.Forms.TextBox();
+            this.txtG = new System.Windows.Forms.TextBox();
+            this.txtB = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pgColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npY)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollablePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -71,13 +77,25 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusLabel_Id
+            // 
+            this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
+            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
+            this.toolStripStatusLabel_Id.Text = "-";
+            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtB);
+            this.groupBox1.Controls.Add(this.txtG);
+            this.groupBox1.Controls.Add(this.txtR);
+            this.groupBox1.Controls.Add(this.lbB);
+            this.groupBox1.Controls.Add(this.lbG);
+            this.groupBox1.Controls.Add(this.lbR);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Controls.Add(this.pgColor);
             this.groupBox1.Controls.Add(this.npHeight);
             this.groupBox1.Controls.Add(this.npWidth);
             this.groupBox1.Controls.Add(this.npX);
@@ -140,14 +158,15 @@
             this.label2.TabIndex = 18;
             this.label2.Text = "X :";
             // 
-            // pictureBox1
+            // pgColor
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(827, 40);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 17;
-            this.pictureBox1.TabStop = false;
+            this.pgColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pgColor.Location = new System.Drawing.Point(721, 19);
+            this.pgColor.Name = "pgColor";
+            this.pgColor.Size = new System.Drawing.Size(100, 95);
+            this.pgColor.TabIndex = 17;
+            this.pgColor.TabStop = false;
             // 
             // npHeight
             // 
@@ -236,6 +255,15 @@
             this.panel1.Size = new System.Drawing.Size(699, 573);
             this.panel1.TabIndex = 15;
             // 
+            // scrollablePictureBox
+            // 
+            this.scrollablePictureBox.Location = new System.Drawing.Point(3, 3);
+            this.scrollablePictureBox.Name = "scrollablePictureBox";
+            this.scrollablePictureBox.Size = new System.Drawing.Size(437, 406);
+            this.scrollablePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.scrollablePictureBox.TabIndex = 0;
+            this.scrollablePictureBox.TabStop = false;
+            // 
             // btnNew
             // 
             this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -301,20 +329,68 @@
             // 
             this.timer_image.Interval = 1000;
             // 
-            // scrollablePictureBox
+            // lbR
             // 
-            this.scrollablePictureBox.Location = new System.Drawing.Point(3, 3);
-            this.scrollablePictureBox.Name = "scrollablePictureBox";
-            this.scrollablePictureBox.Size = new System.Drawing.Size(437, 406);
-            this.scrollablePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.scrollablePictureBox.TabIndex = 0;
-            this.scrollablePictureBox.TabStop = false;
+            this.lbR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbR.Location = new System.Drawing.Point(824, 19);
+            this.lbR.Name = "lbR";
+            this.lbR.Size = new System.Drawing.Size(35, 30);
+            this.lbR.TabIndex = 19;
+            this.lbR.Text = "R";
+            this.lbR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // toolStripStatusLabel_Id
+            // lbG
             // 
-            this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
-            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
-            this.toolStripStatusLabel_Id.Text = "-";
+            this.lbG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbG.Location = new System.Drawing.Point(824, 51);
+            this.lbG.Name = "lbG";
+            this.lbG.Size = new System.Drawing.Size(35, 30);
+            this.lbG.TabIndex = 19;
+            this.lbG.Text = "G";
+            this.lbG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbB
+            // 
+            this.lbB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbB.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbB.Location = new System.Drawing.Point(824, 84);
+            this.lbB.Name = "lbB";
+            this.lbB.Size = new System.Drawing.Size(35, 30);
+            this.lbB.TabIndex = 19;
+            this.lbB.Text = "B";
+            this.lbB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtR
+            // 
+            this.txtR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtR.Enabled = false;
+            this.txtR.Location = new System.Drawing.Point(865, 19);
+            this.txtR.Multiline = true;
+            this.txtR.Name = "txtR";
+            this.txtR.Size = new System.Drawing.Size(47, 30);
+            this.txtR.TabIndex = 20;
+            // 
+            // txtG
+            // 
+            this.txtG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtG.Enabled = false;
+            this.txtG.Location = new System.Drawing.Point(865, 51);
+            this.txtG.Multiline = true;
+            this.txtG.Name = "txtG";
+            this.txtG.Size = new System.Drawing.Size(47, 30);
+            this.txtG.TabIndex = 20;
+            // 
+            // txtB
+            // 
+            this.txtB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtB.Enabled = false;
+            this.txtB.Location = new System.Drawing.Point(865, 84);
+            this.txtB.Multiline = true;
+            this.txtB.Name = "txtB";
+            this.txtB.Size = new System.Drawing.Size(47, 30);
+            this.txtB.TabIndex = 20;
             // 
             // Rectangles
             // 
@@ -332,15 +408,15 @@
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pgColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npY)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollablePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -360,7 +436,7 @@
         private System.Windows.Forms.NumericUpDown npWidth;
         private System.Windows.Forms.NumericUpDown npX;
         private System.Windows.Forms.NumericUpDown npY;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pgColor;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
@@ -368,5 +444,11 @@
         private System.Windows.Forms.Timer timer_image;
         private System.Windows.Forms.PictureBox scrollablePictureBox;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Id;
+        private System.Windows.Forms.TextBox txtR;
+        private System.Windows.Forms.Label lbB;
+        private System.Windows.Forms.Label lbG;
+        private System.Windows.Forms.Label lbR;
+        private System.Windows.Forms.TextBox txtB;
+        private System.Windows.Forms.TextBox txtG;
     }
 }
