@@ -17,10 +17,12 @@ namespace GL_M2.Forms
 {
     public partial class Models : Form
     {
-        public Models()
+        private Main main;
+
+        public Models(Main main)
         {
             InitializeComponent();
-           
+            this.main = main;
         }
 
         private int id;
@@ -375,6 +377,12 @@ namespace GL_M2.Forms
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            if(this.main.image != null)
+            {
+                pgMaster.Image?.Dispose();
+                pgMaster.Image = (Image)this.main.image.Clone();
+            }
+            /*
             // Open file dialog image only
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
@@ -387,6 +395,7 @@ namespace GL_M2.Forms
                     pgMaster.Image = Image.FromStream(stream);
                 }
             }
+            */
         }
 
         private void txtModel_KeyDown(object sender, KeyEventArgs e)

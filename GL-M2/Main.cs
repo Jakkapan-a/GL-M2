@@ -100,12 +100,14 @@ namespace GL_M2
                     await capture.StartAsync(comboBoxCamera.SelectedIndex);
 
                     btConnect.Text = "Disconnect";
+                    timerTest.Start();
                 }
                 else
                 {
                     isStarted = false;
                     await capture.StopAsync();
                     btConnect.Text = "Connect";
+                    timerTest.Stop();
                 }
             }catch(Exception ex)
             {
@@ -117,7 +119,7 @@ namespace GL_M2
         private void modelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             models?.Dispose();
-            models = new Forms.Models();
+            models = new Forms.Models(this);
             models.Show();
         }
 

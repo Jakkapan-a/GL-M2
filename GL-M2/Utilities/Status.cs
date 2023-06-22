@@ -4,6 +4,18 @@ namespace GL_M2.Utilities
         NONE,
         NEW,
         EDIT,
-        DELETE
+        DELETE,
+        PROCESSING,
+        ERROR,
+        DONE,
+        OK,
+        NG,
+        CANCEL,
+        WAITING,
+        RUNNING,
+        STOPPED,
+        PAUSED,
+        RESUMED,
+        FINISHED,
     }
 }
