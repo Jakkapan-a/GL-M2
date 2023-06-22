@@ -1,4 +1,5 @@
 ﻿using DirectShowLib;
+using GL_M2.Forms;
 using GL_M2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -156,9 +157,16 @@ namespace GL_M2
                 rectangles = SQliteDataAccess.Rectangles.GetByModelId(model_id);
                 toolStripStatusLabel_Id.Text = $"Model ID: {model_id}";
                 lbTitle.Text = $"Model: {model.name}";
+                rectangles = SQliteDataAccess.Rectangles.GetByModelId(model_id);
             }
         }
 
-       
+        private Options options;
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            options?.Dispose();
+            options = new Options();
+            options.Show();
+        }
     }
 }

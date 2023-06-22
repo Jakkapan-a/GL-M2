@@ -70,5 +70,89 @@ namespace GL_M2.Properties {
                 this["config_percent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
+        public global::System.Drawing.Color color_ok {
+            get {
+                return ((global::System.Drawing.Color)(this["color_ok"]));
+            }
+            set {
+                this["color_ok"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color color_ng {
+            get {
+                return ((global::System.Drawing.Color)(this["color_ng"]));
+            }
+            set {
+                this["color_ng"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int circle_radius {
+            get {
+                return ((int)(this["circle_radius"]));
+            }
+            set {
+                this["circle_radius"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int triangle_length {
+            get {
+                return ((int)(this["triangle_length"]));
+            }
+            set {
+                this["triangle_length"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int toggle_time {
+            get {
+                return ((int)(this["toggle_time"]));
+            }
+            set {
+                this["toggle_time"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int time_process {
+            get {
+                return ((int)(this["time_process"]));
+            }
+            set {
+                this["time_process"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int percent_check {
+            get {
+                return ((int)(this["percent_check"]));
+            }
+            set {
+                this["percent_check"] = value;
+            }
+        }
     }
 }

@@ -36,11 +36,18 @@ namespace GL_M2.Forms
                 this.Close();
                 return;
             }
-
-            using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, model.image), FileMode.Open, FileAccess.Read))
+            try
             {
-                image = Image.FromStream(fs);
-                scrollablePictureBox.Image = Image.FromStream(fs);
+                using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, model.image), FileMode.Open, FileAccess.Read))
+                {
+                    image = Image.FromStream(fs);
+                    scrollablePictureBox.Image = Image.FromStream(fs);
+                }
+            }
+            catch
+            {
+                this.Close();
+                return;
             }
             RenderTable();
 
@@ -319,8 +326,8 @@ namespace GL_M2.Forms
                 // Get x and y coordinates of mouse click relative to image
                 MouseEventArgs me = (MouseEventArgs)e;
                 Point coordinates = me.Location;
-                int x = coordinates.X;
-                int y = coordinates.Y;
+                int x = (int)(coordinates.X - npX.Value / 2);
+                int y = (int)(coordinates.Y - npY.Value / 2);
                 // Set x, y values to npX and npY
                 npX.Value = x;
                 npY.Value = y;

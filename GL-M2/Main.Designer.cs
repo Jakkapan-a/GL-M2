@@ -34,9 +34,11 @@
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel_Left = new System.Windows.Forms.Panel();
+            this.lbStatus = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbModels = new System.Windows.Forms.ComboBox();
             this.txtModels = new System.Windows.Forms.TextBox();
@@ -51,8 +53,8 @@
             this.comboBoxCamera = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel_Main = new System.Windows.Forms.Panel();
-            this.pgCam = new System.Windows.Forms.PictureBox();
             this.lbTitle = new System.Windows.Forms.Label();
+            this.pgCam = new System.Windows.Forms.PictureBox();
             this.timerTest = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -85,7 +87,8 @@
             // 
             this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem,
-            this.modelsToolStripMenuItem});
+            this.modelsToolStripMenuItem,
+            this.optionsToolStripMenuItem});
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
             this.settingToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.settingToolStripMenuItem.Text = "Setting";
@@ -93,15 +96,22 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // modelsToolStripMenuItem
             // 
             this.modelsToolStripMenuItem.Name = "modelsToolStripMenuItem";
-            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modelsToolStripMenuItem.Text = "Models";
             this.modelsToolStripMenuItem.Click += new System.EventHandler(this.modelsToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -123,6 +133,7 @@
             // 
             this.panel_Left.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.panel_Left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_Left.Controls.Add(this.lbStatus);
             this.panel_Left.Controls.Add(this.groupBox2);
             this.panel_Left.Controls.Add(this.groupBox1);
             this.panel_Left.Dock = System.Windows.Forms.DockStyle.Right;
@@ -130,6 +141,18 @@
             this.panel_Left.Name = "panel_Left";
             this.panel_Left.Size = new System.Drawing.Size(229, 635);
             this.panel_Left.TabIndex = 2;
+            // 
+            // lbStatus
+            // 
+            this.lbStatus.BackColor = System.Drawing.Color.Yellow;
+            this.lbStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbStatus.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStatus.Location = new System.Drawing.Point(6, 127);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(218, 111);
+            this.lbStatus.TabIndex = 1;
+            this.lbStatus.Text = "Wait..";
+            this.lbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox2
             // 
@@ -281,6 +304,20 @@
             this.panel_Main.Size = new System.Drawing.Size(1035, 635);
             this.panel_Main.TabIndex = 3;
             // 
+            // lbTitle
+            // 
+            this.lbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbTitle.BackColor = System.Drawing.Color.Yellow;
+            this.lbTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitle.Location = new System.Drawing.Point(154, 10);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(726, 34);
+            this.lbTitle.TabIndex = 1;
+            this.lbTitle.Text = "----------------------";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pgCam
             // 
             this.pgCam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -293,19 +330,6 @@
             this.pgCam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pgCam.TabIndex = 0;
             this.pgCam.TabStop = false;
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTitle.BackColor = System.Drawing.Color.Yellow;
-            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitle.Location = new System.Drawing.Point(154, 10);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(726, 34);
-            this.lbTitle.TabIndex = 1;
-            this.lbTitle.Text = "----------------------";
-            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // timerTest
             // 
@@ -370,6 +394,8 @@
         private System.Windows.Forms.ComboBox cbModels;
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.Timer timerTest;
+        private System.Windows.Forms.Label lbStatus;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
     }
 }
 

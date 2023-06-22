@@ -144,6 +144,12 @@
     <Compile Include="Forms\Models.Designer.cs">
       <DependentUpon>Models.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options.Designer.cs">
+      <DependentUpon>Options.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Preview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     <Compile Include="Utilities\TCapture.cs" />
     <EmbeddedResource Include="Forms\Models.resx">
       <DependentUpon>Models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preview.resx">
       <DependentUpon>Preview.cs</DependentUpon>

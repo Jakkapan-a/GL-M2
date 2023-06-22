@@ -38,10 +38,15 @@ namespace GL_M2
 
         private void ProcessTest()
         {
-            rectangles = SQliteDataAccess.Rectangles.GetByModelId(model_id);
+
+            if (reset == STATUS.STOPPED) return;
             // Check if there is any rectangle
-            if (rectangles.Count == 0) return;
+            if (rectangles == null || rectangles.Count == 0) return;
             //results.Clear();
+            if(results.Count != rectangles.Count)
+            {
+                results.Clear();
+            }
             using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, model.image), FileMode.Open, FileAccess.Read))
             {
                 using (Image img = Image.FromStream(fs))
@@ -60,8 +65,7 @@ namespace GL_M2
                     DrawToBitmaps(bmp_m, img, bmp_s);
                     ProcessRectangles(bmp_m, bmp_s);
                 }
-            }
-           
+            }           
         }
 
         private void DrawToBitmaps(Bitmap bmp_m, Image img, Bitmap bmp_s)
@@ -84,8 +88,37 @@ namespace GL_M2
             {
                 ProcessRectangle(r, bmp_m, bmp_s);
             }
+            if (InvokeRequired) 
+            {
+                Invoke(new Action(() => UpdateDisplay()));
+            }
         }
 
+        private STATUS reset = STATUS.NEW;
+        private void UpdateDisplay()
+        {
+            int _total = results.Count; // results.Count(x => x.result == STATUS.NONE);
+            if(_total == results.Count(x => x.result == STATUS.NONE))
+            {
+                // Black color
+                lbStatus.Text = "Wait..";
+                lbStatus.BackColor = Color.Yellow;
+                //
+            }
+            else if(_total == results.Count(x=> x.result == STATUS.OK)){
+                lbStatus.Text = "PASS";
+                lbStatus.BackColor = Color.Green;
+                // STOP
+                reset = STATUS.STOPPED;
+            }
+            else
+            {
+                lbStatus.Text = "NG";
+                lbStatus.BackColor = Color.Red;
+            }
+
+
+        }
         private void ProcessRectangle(SQliteDataAccess.Rectangles r, Bitmap bmp_m, Bitmap bmp_s)
         {
             // Get RGB value of pixel center of rectangle
@@ -93,7 +126,7 @@ namespace GL_M2
             int y = (int)r.y + (int)r.height / 2;
             Color color = bmp_m.GetPixel(x, y);
 
-            int total = CalcPct(255, 10);
+            int total = CalcPct(255, Properties.Settings.Default.percent_check);
             int r_min = color.R - total < 0 ? 0 : color.R - total;
             int r_max = color.R + total > 255 ? 255 : color.R + total;
             int g_min = color.G - total < 0 ? 0 : color.G - total;

@@ -56,72 +56,124 @@ namespace GL_M2
             image?.Dispose();
             image = (Image)bitmap.Clone();
         }
+        private bool isReset = true;
 
         private void DrawRectanglesAndManageStatus(Bitmap bitmap)
         {
             using (Bitmap bmp = new Bitmap(image.Width, image.Height))
             {
-                using (Graphics g = Graphics.FromImage(bmp))
+                DrawImageAndRectangles(bitmap, bmp);
+                // Update picture
+                UpdateImage(bmp);
+
+                ManageStatus(bmp);
+                if (reset == STATUS.STOPPED)
                 {
-                    g.DrawImage(bitmap, 0, 0, image.Width, image.Height);
-                    if (rectangles != null && rectangles.Count > 0)
+                    Color color = bmp.GetPixel(20, 20);
+                    int min = 20;
+                    if(!isReset && color != null && color.R > min && color.G > min && color.B > min)
                     {
-                        foreach (var rectangle in rectangles)
+                        reset = STATUS.STARTING;
+                        isReset = true;
+                    }else
+                    if (isReset)
+                    {
+                        if (color != null && color.R < min && color.G < min && color.B < min)
                         {
-                            DrawRectangleAndCheckStatus(g, rectangle);
+                            isReset = false;
                         }
                     }
                 }
-                // Update picture
-                pgCam.Image?.Dispose();
-                pgCam.Image = (Image)bmp.Clone();
+
+
             }
         }
 
+        private void DrawImageAndRectangles(Bitmap sourceBitmap, Bitmap targetBitmap)
+        {
+            using (Graphics g = Graphics.FromImage(targetBitmap))
+            {
+                g.DrawImage(sourceBitmap, 0, 0, image.Width, image.Height);
+                DrawAllRectangles(g);
+            }
+        }
+        private void DrawAllRectangles(Graphics g)
+        {
+            if (rectangles != null && rectangles.Count > 0)
+            {
+                foreach (var rectangle in rectangles)
+                {
+                    DrawRectangleAndCheckStatus(g, rectangle);
+                }
+            }
+        }
+        private void ManageStatus(Bitmap bmp)
+        {
+            if (reset == STATUS.STOPPED)
+            {
+                Color color = bmp.GetPixel(20, 20);
+                ManageResetStatus(color);
+            }
+        }
+        private void ManageResetStatus(Color color)
+        {
+            int min = 20;
+            if (!isReset && IsColorAboveMin(color, min))
+            {
+                StartReset();
+            }
+            else if (isReset && !IsColorAboveMin(color, min))
+            {
+                StopReset();
+            }
+        }
+        private bool IsColorAboveMin(Color color, int min) => color.R > min && color.G > min && color.B > min;
+        
 
+        private void StartReset()
+        {
+            reset = STATUS.STARTING;
+            isReset = true;
+        }
+
+        private void StopReset()
+        {
+            isReset = false;
+        }
         private void DrawRectangleAndCheckStatus(Graphics g, SQliteDataAccess.Rectangles rectangle)
         {
-            /*
-                Code more....
-            */
-            Color color = Color.Red;
-            if (results.Any(x => x.id == rectangle.id))
+            Color color = Properties.Settings.Default.color_ng;
+            var res = results.FirstOrDefault(x => x.id == rectangle.id);
+            if (res != null)
             {
                 STATUS result = results.Where(x => x.id == rectangle.id).Select(x => x.result).FirstOrDefault();
                 if (result == STATUS.OK)
                 {
                     DrawGreenCircle(g, rectangle);
-                    color = Color.Green;
+                    color = Properties.Settings.Default.color_ok;
                 }
                 else if (result == STATUS.NG)
                 {
                     DrawRedTriangle(g, rectangle);
-                }
-                else if (result == STATUS.PROCESSING)
-                {
-                    Console.WriteLine("PROCESSING");
-                }
-                else if (result == STATUS.NONE)
-                {
-                    Console.WriteLine("NONE");
-                }
+                }               
             }
             g.DrawRectangle(new Pen(color, 2), rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         }
         private void DrawGreenCircle(Graphics g, SQliteDataAccess.Rectangles rectangle)
         {
             //Console.WriteLine("OK");
-            Pen pen = new Pen(Color.Green, 2);  // Choose your color and line width
-            int radius = 50;  // Change this to change the radius of the circle
+            Pen pen = new Pen(Properties.Settings.Default.color_ok, 2);  // Choose your color and line width
+            int radius = Properties.Settings.Default.circle_radius;  // Change this to change the radius of the circle
             g.DrawEllipse(pen, (rectangle.x + rectangle.width / 2) - radius, (rectangle.y + rectangle.height / 2) - radius, radius * 2, radius * 2);
         }
         private void DrawRedTriangle(Graphics g, SQliteDataAccess.Rectangles rectangle)
         {
-            int time = 500;
+            int time = Properties.Settings.Default.toggle_time;
             if (stopwatch.ElapsedMilliseconds > time)
             {
                 //Console.WriteLine("NG");
-                DrawTriangle(g, Pens.Red, rectangle, time);
+                Pen pen = new Pen(Properties.Settings.Default.color_ng, 2);
+                DrawTriangle(g, pen, rectangle, time);
                 if (stopwatch.ElapsedMilliseconds > time * 2)
                 {
                     stopwatch.Restart();
@@ -130,7 +182,7 @@ namespace GL_M2
         }
         private void DrawTriangle(Graphics g, Pen pen, SQliteDataAccess.Rectangles rectangle, int time)
         {
-            int sideLength = 100; // Adjust to desired side length
+            int sideLength = Properties.Settings.Default.triangle_length; // Adjust to desired side length
             float halfLength = sideLength / 2.0f;
 
             // Calculate the center of the bitmap
@@ -148,7 +200,7 @@ namespace GL_M2
         private Image image_temp;
         private void CheckTestElapsed()
         {
-            if (stopwatchTest.ElapsedMilliseconds > 500)
+            if (stopwatchTest.ElapsedMilliseconds > Properties.Settings.Default.time_process)
             {
                 image_temp?.Dispose();
                 image_temp = (Image)image.Clone();
