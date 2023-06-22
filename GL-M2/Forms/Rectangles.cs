@@ -311,5 +311,20 @@ namespace GL_M2.Forms
             Properties.Settings.Default.Save();
             DrawRectanglesOnImage();
         }
+
+        private void scrollablePictureBox_Click(object sender, EventArgs e)
+        {
+            if(npX.Enabled && npY.Enabled)
+            {
+                // Get x and y coordinates of mouse click relative to image
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point coordinates = me.Location;
+                int x = coordinates.X;
+                int y = coordinates.Y;
+                // Set x, y values to npX and npY
+                npX.Value = x;
+                npY.Value = y;
+            }
+        }
     }
 }

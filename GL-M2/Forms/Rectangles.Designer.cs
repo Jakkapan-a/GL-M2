@@ -32,6 +32,13 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbPoint = new GL_M2.Controls.ColorPicker();
+            this.cbCurrentPoint = new GL_M2.Controls.ColorPicker();
+            this.cbNewPoint = new GL_M2.Controls.ColorPicker();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtB = new System.Windows.Forms.TextBox();
             this.txtG = new System.Windows.Forms.TextBox();
             this.txtR = new System.Windows.Forms.TextBox();
@@ -55,13 +62,6 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.dgvRectangles = new System.Windows.Forms.DataGridView();
             this.timer_image = new System.Windows.Forms.Timer(this.components);
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cbPoint = new GL_M2.Controls.ColorPicker();
-            this.cbCurrentPoint = new GL_M2.Controls.ColorPicker();
-            this.cbNewPoint = new GL_M2.Controls.ColorPicker();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgColor)).BeginInit();
@@ -127,6 +127,89 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parameter";
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(756, 100);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 13);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "New Point";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(744, 73);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 13);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "Current Point";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(781, 46);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Point";
+            // 
+            // cbPoint
+            // 
+            this.cbPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPoint.BackColor = System.Drawing.Color.White;
+            this.cbPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPoint.FormattingEnabled = true;
+            this.cbPoint.Location = new System.Drawing.Point(824, 46);
+            this.cbPoint.Name = "cbPoint";
+            this.cbPoint.SelectedValue = System.Drawing.Color.White;
+            this.cbPoint.Size = new System.Drawing.Size(212, 21);
+            this.cbPoint.TabIndex = 24;
+            this.cbPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
+            // 
+            // cbCurrentPoint
+            // 
+            this.cbCurrentPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbCurrentPoint.BackColor = System.Drawing.Color.White;
+            this.cbCurrentPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbCurrentPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCurrentPoint.FormattingEnabled = true;
+            this.cbCurrentPoint.Location = new System.Drawing.Point(824, 73);
+            this.cbCurrentPoint.Name = "cbCurrentPoint";
+            this.cbCurrentPoint.SelectedValue = System.Drawing.Color.White;
+            this.cbCurrentPoint.Size = new System.Drawing.Size(212, 21);
+            this.cbCurrentPoint.TabIndex = 23;
+            this.cbCurrentPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
+            // 
+            // cbNewPoint
+            // 
+            this.cbNewPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbNewPoint.BackColor = System.Drawing.Color.White;
+            this.cbNewPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbNewPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbNewPoint.FormattingEnabled = true;
+            this.cbNewPoint.Location = new System.Drawing.Point(824, 100);
+            this.cbNewPoint.Name = "cbNewPoint";
+            this.cbNewPoint.SelectedValue = System.Drawing.Color.White;
+            this.cbNewPoint.Size = new System.Drawing.Size(212, 21);
+            this.cbNewPoint.TabIndex = 22;
+            this.cbNewPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(716, 124);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(320, 5);
+            this.label5.TabIndex = 21;
             // 
             // txtB
             // 
@@ -340,6 +423,7 @@
             this.scrollablePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.scrollablePictureBox.TabIndex = 0;
             this.scrollablePictureBox.TabStop = false;
+            this.scrollablePictureBox.Click += new System.EventHandler(this.scrollablePictureBox_Click);
             // 
             // btnNew
             // 
@@ -405,90 +489,6 @@
             // timer_image
             // 
             this.timer_image.Interval = 1000;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(716, 124);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(320, 5);
-            this.label5.TabIndex = 21;
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(781, 46);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 13);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Point";
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(744, 73);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 13);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "Current Point";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(756, 100);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(56, 13);
-            this.label8.TabIndex = 25;
-            this.label8.Text = "New Point";
-            // 
-            // cbPoint
-            // 
-            this.cbPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbPoint.BackColor = System.Drawing.Color.White;
-            this.cbPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPoint.FormattingEnabled = true;
-            this.cbPoint.Location = new System.Drawing.Point(824, 46);
-            this.cbPoint.Name = "cbPoint";
-            this.cbPoint.SelectedValue = System.Drawing.Color.White;
-            this.cbPoint.Size = new System.Drawing.Size(212, 21);
-            this.cbPoint.TabIndex = 24;
-            this.cbPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
-            // 
-            // cbCurrentPoint
-            // 
-            this.cbCurrentPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCurrentPoint.BackColor = System.Drawing.Color.White;
-            this.cbCurrentPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbCurrentPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCurrentPoint.FormattingEnabled = true;
-            this.cbCurrentPoint.Location = new System.Drawing.Point(824, 73);
-            this.cbCurrentPoint.Name = "cbCurrentPoint";
-            this.cbCurrentPoint.SelectedValue = System.Drawing.Color.White;
-            this.cbCurrentPoint.Size = new System.Drawing.Size(212, 21);
-            this.cbCurrentPoint.TabIndex = 23;
-            this.cbCurrentPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
-            // 
-            // cbNewPoint
-            // 
-            this.cbNewPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbNewPoint.BackColor = System.Drawing.Color.White;
-            this.cbNewPoint.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbNewPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbNewPoint.FormattingEnabled = true;
-            this.cbNewPoint.Location = new System.Drawing.Point(824, 100);
-            this.cbNewPoint.Name = "cbNewPoint";
-            this.cbNewPoint.SelectedItem = null;
-            this.cbNewPoint.SelectedValue = System.Drawing.Color.White;
-            this.cbNewPoint.Size = new System.Drawing.Size(212, 21);
-            this.cbNewPoint.TabIndex = 22;
-            this.cbNewPoint.SelectedIndexChanged += new System.EventHandler(this.cbPoint_SelectedIndexChanged);
             // 
             // Rectangles
             // 

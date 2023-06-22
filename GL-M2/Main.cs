@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
@@ -16,11 +17,11 @@ using static System.Windows.Forms.AxHost;
 namespace GL_M2
 {
     public partial class Main : Form
-    {        
+    {
         public Main()
         {
             InitializeComponent();
-            InitializeCapture();         
+            InitializeCapture();
         }
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
@@ -100,14 +101,14 @@ namespace GL_M2
                     await capture.StartAsync(comboBoxCamera.SelectedIndex);
 
                     btConnect.Text = "Disconnect";
-                    timerTest.Start();
+                    //timerTest.Start();
                 }
                 else
                 {
                     isStarted = false;
                     await capture.StopAsync();
                     btConnect.Text = "Connect";
-                    timerTest.Stop();
+                    //timerTest.Stop();
                 }
             }catch(Exception ex)
             {
