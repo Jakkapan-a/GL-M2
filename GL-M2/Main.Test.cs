@@ -47,6 +47,7 @@ namespace GL_M2
             {
                 results.Clear();
             }
+
             using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, model.image), FileMode.Open, FileAccess.Read))
             {
                 using (Image img = Image.FromStream(fs))

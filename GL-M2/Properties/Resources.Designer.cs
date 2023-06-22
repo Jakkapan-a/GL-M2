@@ -91,6 +91,16 @@ namespace GL_M2.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_property_32 {
+            get {
+                object obj = ResourceManager.GetObject("edit_property_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ./system/images.
         /// </summary>
         internal static string path_image {
@@ -114,6 +124,16 @@ namespace GL_M2.Properties {
         internal static System.Drawing.Bitmap search_32 {
             get {
                 object obj = ResourceManager.GetObject("search_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings__32 {
+            get {
+                object obj = ResourceManager.GetObject("settings__32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

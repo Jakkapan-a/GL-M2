@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Models));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_id = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pgMaster = new GL_M2.Controls.ObservablePictureBox();
             this.dgvModels = new System.Windows.Forms.DataGridView();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -48,12 +50,11 @@
             this.txtDescription = new System.Windows.Forms.RichTextBox();
             this.txtModel = new System.Windows.Forms.TextBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.pgMaster = new GL_M2.Controls.ObservablePictureBox();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvModels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pgMaster)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvModels)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -108,6 +109,21 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
+            // 
+            // pgMaster
+            // 
+            this.pgMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgMaster.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pgMaster.Image = null;
+            this.pgMaster.Location = new System.Drawing.Point(7, 22);
+            this.pgMaster.Name = "pgMaster";
+            this.pgMaster.Size = new System.Drawing.Size(526, 469);
+            this.pgMaster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pgMaster.TabIndex = 11;
+            this.pgMaster.TabStop = false;
+            this.pgMaster.ImageChanged += new System.EventHandler(this.pgMaster_ImageChanged);
             // 
             // dgvModels
             // 
@@ -291,21 +307,6 @@
             this.txtSearch.TabIndex = 2;
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
-            // pgMaster
-            // 
-            this.pgMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pgMaster.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pgMaster.Image = null;
-            this.pgMaster.Location = new System.Drawing.Point(7, 22);
-            this.pgMaster.Name = "pgMaster";
-            this.pgMaster.Size = new System.Drawing.Size(526, 469);
-            this.pgMaster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pgMaster.TabIndex = 11;
-            this.pgMaster.TabStop = false;
-            this.pgMaster.ImageChanged += new System.EventHandler(this.pgMaster_ImageChanged);
-            // 
             // Models
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,6 +314,7 @@
             this.ClientSize = new System.Drawing.Size(923, 563);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Models";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Models";
@@ -323,8 +325,8 @@
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvModels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pgMaster)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvModels)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
