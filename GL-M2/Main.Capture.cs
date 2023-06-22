@@ -1,4 +1,5 @@
 ﻿using GL_M2.Utilities;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,26 +65,27 @@ namespace GL_M2
             {
                 DrawImageAndRectangles(bitmap, bmp);
                 // Update picture
-                UpdateImage(bmp);
-
+                //UpdateImage(bmp);
+                pgCam.Image?.Dispose();
+                pgCam.Image = (Image)bmp.Clone();
                 ManageStatus(bmp);
-                if (reset == STATUS.STOPPED)
-                {
-                    Color color = bmp.GetPixel(20, 20);
-                    int min = 20;
-                    if(!isReset && color != null && color.R > min && color.G > min && color.B > min)
-                    {
-                        reset = STATUS.STARTING;
-                        isReset = true;
-                    }else
-                    if (isReset)
-                    {
-                        if (color != null && color.R < min && color.G < min && color.B < min)
-                        {
-                            isReset = false;
-                        }
-                    }
-                }
+                //if (reset == STATUS.STOPPED)
+                //{
+                //    Color color = bmp.GetPixel(20, 20);
+                //    int min = 20;
+                //    if(!isReset && color != null && color.R > min && color.G > min && color.B > min)
+                //    {
+                //        reset = STATUS.STARTING;
+                //        isReset = true;
+                //    }else
+                //    if (isReset)
+                //    {
+                //        if (color != null && color.R < min && color.G < min && color.B < min)
+                //        {
+                //            isReset = false;
+                //        }
+                //    }
+                //}
 
 
             }
@@ -99,6 +101,7 @@ namespace GL_M2
         }
         private void DrawAllRectangles(Graphics g)
         {
+         
             if (rectangles != null && rectangles.Count > 0)
             {
                 foreach (var rectangle in rectangles)
@@ -106,6 +109,7 @@ namespace GL_M2
                     DrawRectangleAndCheckStatus(g, rectangle);
                 }
             }
+
         }
         private void ManageStatus(Bitmap bmp)
         {
@@ -157,7 +161,14 @@ namespace GL_M2
                     DrawRedTriangle(g, rectangle);
                 }               
             }
-            g.DrawRectangle(new Pen(color, 2), rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            try
+            {
+                g.DrawRectangle(new Pen(color, 2), rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error" + ex.Message);
+            }
         }
         private void DrawGreenCircle(Graphics g, SQliteDataAccess.Rectangles rectangle)
         {

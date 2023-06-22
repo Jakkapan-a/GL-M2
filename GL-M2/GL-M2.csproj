@@ -238,6 +238,12 @@
   <ItemGroup>
     <None Include="Resources\search_32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings__32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_property_32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
