@@ -240,8 +240,15 @@ namespace GL_M2.Utilities
         public void Stop()
         {
             _isRunning = false;
-            TryDispose(ref _videoCapture);
-            TryDispose(ref _timer);
+            try
+            {
+                TryDispose(ref _videoCapture);
+                TryDispose(ref _timer);
+            }catch(Exception ex)
+            {
+                OnError?.Invoke("TCapture Stop Error " + ex.Message);
+            }
+
             OnVideoStop?.Invoke();
         }
 

@@ -326,8 +326,8 @@ namespace GL_M2.Forms
                 // Get x and y coordinates of mouse click relative to image
                 MouseEventArgs me = (MouseEventArgs)e;
                 Point coordinates = me.Location;
-                int x = (int)(coordinates.X - npX.Value / 2);
-                int y = (int)(coordinates.Y - npY.Value / 2);
+                int x = (int)(coordinates.X - npWidth.Value / 2);
+                int y = (int)(coordinates.Y - npHeight.Value / 2);
                 // Set x, y values to npX and npY
                 npX.Value = x;
                 npY.Value = y;

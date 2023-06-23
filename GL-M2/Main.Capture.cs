@@ -27,7 +27,17 @@ namespace GL_M2
         }
         private void Capture_OnVideoStop()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => Capture_OnVideoStop()));
+                return;
+            }
             pgCam.Image?.Dispose();
+            pgCam.Image = null;
+            // Black color
+            lbStatus.Text = "Wait..";
+            lbStatus.BackColor = Color.Yellow;
+            //
         }
 
         private void Capture_OnVideoStarted()
@@ -65,38 +75,24 @@ namespace GL_M2
             {
                 DrawImageAndRectangles(bitmap, bmp);
                 // Update picture
-                //UpdateImage(bmp);
                 pgCam.Image?.Dispose();
                 pgCam.Image = (Image)bmp.Clone();
                 ManageStatus(bmp);
-                //if (reset == STATUS.STOPPED)
-                //{
-                //    Color color = bmp.GetPixel(20, 20);
-                //    int min = 20;
-                //    if(!isReset && color != null && color.R > min && color.G > min && color.B > min)
-                //    {
-                //        reset = STATUS.STARTING;
-                //        isReset = true;
-                //    }else
-                //    if (isReset)
-                //    {
-                //        if (color != null && color.R < min && color.G < min && color.B < min)
-                //        {
-                //            isReset = false;
-                //        }
-                //    }
-                //}
-
-
             }
         }
 
         private void DrawImageAndRectangles(Bitmap sourceBitmap, Bitmap targetBitmap)
         {
-            using (Graphics g = Graphics.FromImage(targetBitmap))
+            try
             {
-                g.DrawImage(sourceBitmap, 0, 0, image.Width, image.Height);
-                DrawAllRectangles(g);
+                using (Graphics g = Graphics.FromImage(targetBitmap))
+                {
+                    g.DrawImage(sourceBitmap, 0, 0, image.Width, image.Height);
+                    DrawAllRectangles(g);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("DrawImageAndRectangles :" + ex.Message);
             }
         }
         private void DrawAllRectangles(Graphics g)
@@ -129,6 +125,7 @@ namespace GL_M2
             else if (isReset && !IsColorAboveMin(color, min))
             {
                 StopReset();
+                UpdateDisplay();
             }
         }
         private bool IsColorAboveMin(Color color, int min) => color.R > min && color.G > min && color.B > min;
@@ -143,6 +140,10 @@ namespace GL_M2
         private void StopReset()
         {
             isReset = false;
+            foreach(var result in results)
+            {
+                result.result = STATUS.NONE;
+            }
         }
         private void DrawRectangleAndCheckStatus(Graphics g, SQliteDataAccess.Rectangles rectangle)
         {

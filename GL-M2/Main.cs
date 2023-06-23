@@ -102,14 +102,14 @@ namespace GL_M2
                     await capture.StartAsync(comboBoxCamera.SelectedIndex);
 
                     btConnect.Text = "Disconnect";
-                    //timerTest.Start();
+                    timerTest.Start();
                 }
                 else
                 {
                     isStarted = false;
                     await capture.StopAsync();
                     btConnect.Text = "Connect";
-                    //timerTest.Stop();
+                    timerTest.Stop();
                 }
             }catch(Exception ex)
             {

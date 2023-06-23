@@ -171,6 +171,9 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main.SerialPort.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main.Test.cs">
       <SubType>Form</SubType>
     </Compile>
