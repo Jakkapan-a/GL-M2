@@ -35,13 +35,38 @@ namespace GL_M2
 
             btRefresh.PerformClick();
             RenderModels();
+            DeleteFileAsync();
         }
-        
+
+        private Task DeleteFileAsync()
+        {
+            return Task.Run(() => DeleteFils());
+        }
+        private void DeleteFils()
+        {
+            string[] files = Directory.GetFiles(Properties.Resources.path_image, "*.jpg");
+            foreach (var file in files)
+            {
+                var fileName = new FileInfo(file).Name;
+                if (!SQliteDataAccess.Models.IsImageExist(fileName))
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("File not exist : " + fileName);
+                    }
+                }
+            }
+        }
+
         private int selectedDrive = -1;
         private int selectedBaud = -1;
         private int selectedCOM = -1;
         private bool isRefresh = false;
-     
+
         private void btRefresh_Click(object sender, EventArgs e)
         {
             RefreshVideoDevices();
@@ -53,7 +78,7 @@ namespace GL_M2
         {
             if (isRefresh) return;
             ComboBox box = (ComboBox)sender;
-            switch(box.Name)
+            switch (box.Name)
             {
                 case "comboBoxCamera":
                     selectedDrive = box.SelectedIndex;
@@ -239,6 +264,11 @@ namespace GL_M2
             options?.Dispose();
             options = new Options();
             options.Show();
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SerialClose();
         }
     }
 }

@@ -144,6 +144,20 @@ namespace GL_M2.SQliteDataAccess
         }
 
         /// <summary>
+        /// IsImageExist bool by image from database return true if image exist
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+
+        public static bool IsImageExist(string image)
+        {
+            string sql = "SELECT * FROM models WHERE image = @image";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@image", image);
+            return SQLiteDataAccess.Query<Models>(sql, parameters).Any();
+        }
+
+        /// <summary>
         /// IsExist bool by name and id from database
         /// </summary>
         /// <param name="name"></param>
