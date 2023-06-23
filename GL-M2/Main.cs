@@ -21,11 +21,13 @@ namespace GL_M2
 {
     public partial class Main : Form
     {
+        private ColorName _colorName;
         public Main()
         {
             InitializeComponent();
             InitializeCapture();
             InitializeSerialPort();
+            _colorName = new ColorName();
         }
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
@@ -100,7 +102,7 @@ namespace GL_M2
 
         private void RefreshBaudList()
         {
-            var selectedIndex = (selectedBaud != -1 && selectedBaud < baudList.Length) ? selectedBaud : baudList.Length - 1;
+            var selectedIndex = (selectedBaud != -1 && selectedBaud < baudList.Length) ? selectedBaud :0;
             RefreshComboBox(comboBoxBaud, baudList, selectedIndex);
         }
 

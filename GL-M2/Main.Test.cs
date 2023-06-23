@@ -142,10 +142,11 @@ namespace GL_M2
         }
         private void ProcessRectangle(SQliteDataAccess.Rectangles r, Bitmap bmp_m, Bitmap bmp_s)
         {
-            // Get RGB value of pixel center of rectangle
-            int x = (int)r.x + (int)r.width / 2;
-            int y = (int)r.y + (int)r.height / 2;
-            Color color = bmp_m.GetPixel(x, y);
+            //// Get RGB value of pixel center of rectangle
+            //int x = (int)r.x + (int)r.width / 2;
+            //int y = (int)r.y + (int)r.height / 2;
+            Color color = AverageColor(r,bmp_m);//bmp_m.GetPixel(x, y);
+
 
             int total = CalcPct(255, Properties.Settings.Default.percent_check);
             int r_min = color.R - total < 0 ? 0 : color.R - total;
@@ -158,12 +159,37 @@ namespace GL_M2
             // Get RGB value of pixel center of rectangle
             int x_slave = (int)r.x + (int)r.width / 2;
             int y_slave = (int)r.y + (int)r.height / 2;
+
             if(x_slave < bmp_s.Width && y_slave < bmp_s.Height)
             {
-                Color color_slave = bmp_s.GetPixel(x_slave, y_slave);
+                Color color_slave = AverageColor(r, bmp_s);// bmp_s.GetPixel(x_slave, y_slave);
                 UpdateResultList(r, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave);
             }
 
+        }
+
+        private Color AverageColor(SQliteDataAccess.Rectangles r,Bitmap bmp)
+        {
+            long totalR = 0, totalG = 0, totalB = 0;
+            int count = 0;
+
+            for (int i = (int)r.x; i < (int)r.x + (int)r.width; i++)
+            {
+                for (int j = (int)r.y; j < (int)r.y + (int)r.height; j++)
+                {
+                    Color color = bmp.GetPixel(i, j);
+                    totalR += color.R;
+                    totalG += color.G;
+                    totalB += color.B;
+                    count++;
+                }
+            }
+
+            int avgR = (int)(totalR / count);
+            int avgG = (int)(totalG / count);
+            int avgB = (int)(totalB / count);
+            Color averageColor = Color.FromArgb(avgR, avgG, avgB);
+            return averageColor;
         }
 
         private void UpdateResultList(SQliteDataAccess.Rectangles r, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave)
@@ -197,7 +223,8 @@ namespace GL_M2
             res.Slave_G = color_slave.G;
             res.Slave_B = color_slave.B;
             res.status = STATUS.FINISHED;
-            res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
+            //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
+            res.result = GetStatus(color_slave, color);
         }
 
         private void AddNewResult(SQliteDataAccess.Rectangles r, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
@@ -218,8 +245,30 @@ namespace GL_M2
                 Slave_G = color_slave.G,
                 Slave_B = color_slave.B,
                 status = STATUS.FINISHED,
-                result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG
-            });
+                //result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG
+                result = GetStatus(color_slave, color)
+            }); ; ;
+        }
+        private string[] color_name_s;
+        private string[] color_name_m;
+
+        private STATUS GetStatus(Color color_slave,Color color)
+        {
+            color_name_s = _colorName.Name(_colorName.RgbToHex(color_slave.R,color_slave.G,color_slave.B));
+
+            if (color_name_s[3].ToLower() == "black")
+            {
+                return STATUS.NONE;
+            }
+            color_name_m = _colorName.Name(_colorName.RgbToHex(color.R, color.G, color.B));
+
+            if(color_name_s[3].ToLower() == color_name_m[3].ToLower())
+            {
+                return STATUS.OK;
+            }
+
+            return STATUS.NG;
+
         }
 
         public int CalcPct(int total, double pct) => (int)Math.Round(total * pct / 100);

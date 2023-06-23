@@ -123,8 +123,8 @@ namespace GL_M2.Forms
             id = 0;
             npX.Value = 0;
             npY.Value = 0;
-            npWidth.Value = 10;
-            npHeight.Value = 10;
+            npWidth.Value = 6;
+            npHeight.Value = 6;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

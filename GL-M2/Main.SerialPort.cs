@@ -92,7 +92,7 @@ namespace GL_M2
                 data = data.Substring(data.IndexOf(">") + 1, data.IndexOf("<") - data.IndexOf(">") - 1);
                 this.dataSerialReceived = string.Empty;
                 data = data.Replace(">", "").Replace("<", "");
-                toolStripStatusSentData.Text = "DATA :" + data;
+                //toolStripStatusSentData.Text = "DATA :" + data;
             }
             else if (!dataSerialReceived.Contains(">"))
             {
