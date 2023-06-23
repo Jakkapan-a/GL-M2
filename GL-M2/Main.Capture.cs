@@ -135,6 +135,8 @@ namespace GL_M2
         {
             reset = STATUS.STARTING;
             isReset = true;
+            // RESET STATUS OF SENT SERIAL DATA
+            test_result = SERIAL_STATUS.NONE;
         }
 
         private void StopReset()
@@ -210,6 +212,7 @@ namespace GL_M2
         }
 
         private Image image_temp;
+        private SERIAL_STATUS test_result = SERIAL_STATUS.NONE;
         private void CheckTestElapsed()
         {
             if (stopwatchTest.ElapsedMilliseconds > Properties.Settings.Default.time_process)
@@ -219,6 +222,7 @@ namespace GL_M2
 
                 StartTest();
                 stopwatchTest.Restart();
+                SerialCommand(test_result);
             }
         }
     }

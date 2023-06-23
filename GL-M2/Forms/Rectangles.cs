@@ -142,6 +142,7 @@ namespace GL_M2.Forms
                     SQliteDataAccess.Rectangles.Delete(id);
                     RenderTable();
                     SelectTableRow(selectedRow);
+                    DrawRectanglesOnImage();
                 }
             }
         }

@@ -119,6 +119,7 @@ namespace GL_M2
             int _total = results.Count; // results.Count(x => x.result == STATUS.NONE);
             if (_total == results.Count(x => x.result == STATUS.NONE))
             {
+                test_result = SERIAL_STATUS.NONE;
                 // Black color
                 lbStatus.Text = "Wait..";
                 lbStatus.BackColor = Color.Yellow;
@@ -126,6 +127,7 @@ namespace GL_M2
             }
             else if (_total == results.Count(x => x.result == STATUS.OK))
             {
+                test_result = SERIAL_STATUS.OK;
                 lbStatus.Text = "PASS";
                 lbStatus.BackColor = Color.Green;
                 // STOP
@@ -133,11 +135,10 @@ namespace GL_M2
             }
             else
             {
+                test_result = SERIAL_STATUS.NG;
                 lbStatus.Text = "NG";
                 lbStatus.BackColor = Color.Red;
             }
-
-
         }
         private void ProcessRectangle(SQliteDataAccess.Rectangles r, Bitmap bmp_m, Bitmap bmp_s)
         {

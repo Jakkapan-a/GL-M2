@@ -127,9 +127,7 @@ namespace GL_M2.Forms
                 {
                     using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, dgvModels.SelectedRows[0].Cells["Image"].Value.ToString()), FileMode.Open, FileAccess.Read))
                     {
-
                         pgMaster.Image = Image.FromStream(fs);
-
                         using (Bitmap bitmap = new Bitmap(pgMaster.Image.Width, pgMaster.Image.Height))
                         using (Graphics graphics = Graphics.FromImage(bitmap))
                         {
@@ -372,7 +370,14 @@ namespace GL_M2.Forms
                 return;
             }
             rectangles = new Forms.Rectangles(this.id);
+            rectangles.FormClosed += Rectangles_FormClosed;
             rectangles.Show();
+        }
+
+        private void Rectangles_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //RenderTable();
+            dgvModels_SelectionChanged(sender,e);
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -382,20 +387,6 @@ namespace GL_M2.Forms
                 pgMaster.Image?.Dispose();
                 pgMaster.Image = (Image)this.main.image.Clone();
             }
-            /*
-            // Open file dialog image only
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
-            openFileDialog.Title = "Select image";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                // Load image read only
-                using (Stream stream = File.OpenRead(openFileDialog.FileName))
-                {
-                    pgMaster.Image = Image.FromStream(stream);
-                }
-            }
-            */
         }
 
         private void txtModel_KeyDown(object sender, KeyEventArgs e)

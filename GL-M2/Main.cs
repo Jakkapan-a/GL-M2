@@ -1,5 +1,6 @@
 ﻿using DirectShowLib;
 using GL_M2.Forms;
+using GL_M2.SQliteDataAccess;
 using GL_M2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 using static System.Windows.Forms.AxHost;
 
 namespace GL_M2
@@ -23,6 +25,7 @@ namespace GL_M2
         {
             InitializeComponent();
             InitializeCapture();
+            InitializeSerialPort();
         }
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
@@ -33,36 +36,7 @@ namespace GL_M2
             btRefresh.PerformClick();
             RenderModels();
         }
-
-        private int selectedRow = -1;
-        private void RenderModels()
-        {
-            var models = SQliteDataAccess.Models.GetAll();
-            if (models == null) return;
-            // Clear all rows
-            cbModels.Items.Clear();
-            foreach (var model in models)
-            {
-                cbModels.Items.Add(model.name);
-            }
-
-            SelectModelsRow(selectedRow);
-        }
-
-        private void SelectModelsRow(int rowIndex, int columnIndex = 1)
-        {
-            if (rowIndex != -1 && rowIndex < cbModels.Items.Count)
-            {
-                cbModels.SelectedIndex = rowIndex;
-                selectedRow = rowIndex;
-            }
-            else if (cbModels.Items.Count > 0)
-            {
-                cbModels.SelectedIndex = 0;
-                selectedRow = 0;
-            }
-        }
-
+        
         private int selectedDrive = -1;
         private int selectedBaud = -1;
         private int selectedCOM = -1;
@@ -148,6 +122,8 @@ namespace GL_M2
                 isStarted = !isStarted;
                 if (isStarted)
                 {
+
+                    SerialConnect();
                     pgCam.Image?.Dispose();
                     btConnect.Text = "Connecting..";
 
@@ -160,6 +136,7 @@ namespace GL_M2
                 else
                 {
                     isStarted = false;
+                    SerialClose();
                     await capture.StopAsync();
                     btConnect.Text = "Connect";
                     timerTest.Stop();
@@ -168,6 +145,7 @@ namespace GL_M2
             catch (Exception ex)
             {
                 await capture.StopAsync();
+                SerialClose();
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -176,18 +154,58 @@ namespace GL_M2
         {
             models?.Dispose();
             models = new Forms.Models(this);
+            models.FormClosed += Models_FormClosed;
             models.Show();
         }
 
+        private void Models_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            RenderModels();
+        }
 
         private SQliteDataAccess.Models model;
         private int model_id = -1;
 
         private List<SQliteDataAccess.Rectangles> rectangles;
 
+        private int selectedRow = -1;
+        private void RenderModels()
+        {
+            isSelectModel = true;
+            var models = SQliteDataAccess.Models.GetAll();
+            if (models == null) return;
+            // Clear all rows
+            cbModels.Items.Clear();
+            foreach (var model in models)
+            {
+                cbModels.Items.Add(model.name);
+            }
+
+            SelectModelsRow(selectedRow);
+            isSelectModel = false;
+        }
+        private bool isSelectModel = false;
+        private void SelectModelsRow(int rowIndex, int columnIndex = 1)
+        {
+
+            if (rowIndex != -1 && rowIndex < cbModels.Items.Count)
+            {
+                cbModels.SelectedIndex = rowIndex;
+                selectedRow = rowIndex;
+            }
+            else if (cbModels.Items.Count > 0)
+            {
+                cbModels.SelectedIndex = 0;
+                selectedRow = 0;
+            }
+        }
+
         private void cbModels_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedRow = cbModels.SelectedIndex;
+            if (!isSelectModel)
+            {
+                selectedRow = cbModels.SelectedIndex;
+            }
             txtModels.Text = cbModels.SelectedItem.ToString();
             // Create new KeyEventArgs instance
             KeyEventArgs kea = new KeyEventArgs(Keys.Enter);
@@ -204,14 +222,14 @@ namespace GL_M2
                     model_id = -1;
                     lbTitle.Text = "------------------------";
                     toolStripStatusLabel_Id.Text = $"Model ID: {model_id}";
+                    rectangles?.Clear();
                     MessageBox.Show("Model not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 model_id = model.id;
-                rectangles = SQliteDataAccess.Rectangles.GetByModelId(model_id);
+                rectangles = SQliteDataAccess.Rectangles.GetByModelId(model.id);
                 toolStripStatusLabel_Id.Text = $"Model ID: {model_id}";
                 lbTitle.Text = $"Model: {model.name}";
-                rectangles = SQliteDataAccess.Rectangles.GetByModelId(model_id);
             }
         }
 
@@ -222,7 +240,5 @@ namespace GL_M2
             options = new Options();
             options.Show();
         }
-
-       
     }
 }

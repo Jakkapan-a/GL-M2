@@ -63,7 +63,7 @@ namespace GL_M2
             if (this.serialPort.IsOpen)
             {
                 this.serialPort.Write(">" + command + "<#");
-                toolStripStatusSentData.Text = "Send : " + command;
+                toolStripStatusSentData.Text = $"{DateTime.Now.ToString("HH:MM:ss")} Send : {command}";
             }
         }
 
