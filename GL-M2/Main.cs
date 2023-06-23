@@ -41,7 +41,7 @@ namespace GL_M2
             if (models == null) return;
             // Clear all rows
             cbModels.Items.Clear();
-            foreach ( var model in models )
+            foreach (var model in models)
             {
                 cbModels.Items.Add(model.name);
             }
@@ -50,35 +50,76 @@ namespace GL_M2
         }
 
         private void SelectModelsRow(int rowIndex, int columnIndex = 1)
-        { 
-            if(rowIndex != -1 && rowIndex < cbModels.Items.Count)
+        {
+            if (rowIndex != -1 && rowIndex < cbModels.Items.Count)
             {
                 cbModels.SelectedIndex = rowIndex;
                 selectedRow = rowIndex;
-            }else if(cbModels.Items.Count > 0)
+            }
+            else if (cbModels.Items.Count > 0)
             {
                 cbModels.SelectedIndex = 0;
                 selectedRow = 0;
             }
         }
 
-            private void btRefresh_Click(object sender, EventArgs e)
+        private int selectedDrive = -1;
+        private int selectedBaud = -1;
+        private int selectedCOM = -1;
+        private bool isRefresh = false;
+     
+        private void btRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshVideoDevices();
+            RefreshBaudList();
+            RefreshComPorts();
+        }
+
+        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isRefresh) return;
+            ComboBox box = (ComboBox)sender;
+            switch(box.Name)
+            {
+                case "comboBoxCamera":
+                    selectedDrive = box.SelectedIndex;
+                    break;
+                case "comboBoxBaud":
+                    selectedBaud = box.SelectedIndex;
+                    break;
+                case "comboBoxCOMPort":
+                    selectedCOM = box.SelectedIndex;
+                    break;
+            }
+        }
+        private void RefreshVideoDevices()
         {
             var videoDevices = new List<DsDevice>(DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice));
-            RefreshComboBox(comboBoxCamera, videoDevices);
-            RefreshComboBox(comboBoxBaud, this.baudList, baudList.Length - 1);
-            RefreshComboBox(comboBoxCOMPort, SerialPort.GetPortNames(), SerialPort.GetPortNames().Length -1);
+            var selectedIndex = (selectedDrive != -1 && selectedDrive < videoDevices.Count) ? selectedDrive : 0;
+            RefreshComboBox(comboBoxCamera, videoDevices.Select(d => d.Name).ToArray(), selectedIndex);
         }
 
-        private void RefreshComboBox(ComboBox comboBox, object items, int defaultIndex = 0)
+        private void RefreshBaudList()
         {
-            comboBox.Items.Clear();
-            if (items is string[]) comboBox.Items.AddRange((string[])items);
-            else if (items is List<DsDevice>) comboBox.Items.AddRange(((List<DsDevice>)items).Select(d => d.Name).ToArray());
-            else comboBox.Items.AddRange((string[])items);
-
-            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = defaultIndex;
+            var selectedIndex = (selectedBaud != -1 && selectedBaud < baudList.Length) ? selectedBaud : baudList.Length - 1;
+            RefreshComboBox(comboBoxBaud, baudList, selectedIndex);
         }
+
+        private void RefreshComPorts()
+        {
+            var comPortNames = SerialPort.GetPortNames();
+            var selectedIndex = (selectedCOM != -1 && selectedCOM < comPortNames.Length) ? selectedCOM : comPortNames.Length - 1;
+            RefreshComboBox(comboBoxCOMPort, comPortNames, selectedIndex);
+        }
+        private void RefreshComboBox(ComboBox comboBox, string[] items, int defaultIndex = 0)
+        {
+            isRefresh = true;
+            comboBox.Items.Clear();
+            comboBox.Items.AddRange(items);
+            if (comboBox.Items.Count > 0) comboBox.SelectedIndex = defaultIndex;
+            isRefresh = false;
+        }
+
 
         private bool isStarted = false;
         private async void btConnect_Click(object sender, EventArgs e)
@@ -89,6 +130,18 @@ namespace GL_M2
                 if (comboBoxCamera.SelectedIndex < 0)
                 {
                     MessageBox.Show("Please select a camera", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (comboBoxBaud.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Please select a baud rate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (comboBoxCOMPort.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Please select a COM port", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -111,7 +164,8 @@ namespace GL_M2
                     btConnect.Text = "Connect";
                     timerTest.Stop();
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 await capture.StopAsync();
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -145,7 +199,7 @@ namespace GL_M2
             if (e != null && e.KeyCode == Keys.Enter)
             {
                 model = SQliteDataAccess.Models.GetByName(txtModels.Text.Trim());
-                if(model == null)
+                if (model == null)
                 {
                     model_id = -1;
                     lbTitle.Text = "------------------------";
@@ -168,5 +222,7 @@ namespace GL_M2
             options = new Options();
             options.Show();
         }
+
+       
     }
 }

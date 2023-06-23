@@ -38,6 +38,9 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel_Error = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSentData = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusConnect_SerialPort = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel_Left = new System.Windows.Forms.Panel();
             this.lbStatus = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -97,7 +100,7 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.testToolStripMenuItem.Text = "Test";
             this.testToolStripMenuItem.Visible = false;
             // 
@@ -105,7 +108,7 @@
             // 
             this.modelsToolStripMenuItem.Image = global::GL_M2.Properties.Resources.edit_property_32;
             this.modelsToolStripMenuItem.Name = "modelsToolStripMenuItem";
-            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.modelsToolStripMenuItem.Text = "Models";
             this.modelsToolStripMenuItem.Click += new System.EventHandler(this.modelsToolStripMenuItem_Click);
             // 
@@ -113,25 +116,49 @@
             // 
             this.optionsToolStripMenuItem.Image = global::GL_M2.Properties.Resources.settings__32;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel_Id});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 659);
+            this.toolStripStatusLabel_Id,
+            this.toolStripStatusLabel_Error,
+            this.toolStripStatusSentData,
+            this.toolStripStatusConnect_SerialPort});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 657);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1264, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel_Id
             // 
             this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
-            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
+            this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 19);
             this.toolStripStatusLabel_Id.Text = "-";
+            // 
+            // toolStripStatusLabel_Error
+            // 
+            this.toolStripStatusLabel_Error.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabel_Error.Name = "toolStripStatusLabel_Error";
+            this.toolStripStatusLabel_Error.Size = new System.Drawing.Size(16, 19);
+            this.toolStripStatusLabel_Error.Text = "-";
+            // 
+            // toolStripStatusSentData
+            // 
+            this.toolStripStatusSentData.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusSentData.Name = "toolStripStatusSentData";
+            this.toolStripStatusSentData.Size = new System.Drawing.Size(16, 19);
+            this.toolStripStatusSentData.Text = "-";
+            // 
+            // toolStripStatusConnect_SerialPort
+            // 
+            this.toolStripStatusConnect_SerialPort.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusConnect_SerialPort.Name = "toolStripStatusConnect_SerialPort";
+            this.toolStripStatusConnect_SerialPort.Size = new System.Drawing.Size(16, 19);
+            this.toolStripStatusConnect_SerialPort.Text = "-";
             // 
             // panel_Left
             // 
@@ -143,7 +170,7 @@
             this.panel_Left.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel_Left.Location = new System.Drawing.Point(1035, 24);
             this.panel_Left.Name = "panel_Left";
-            this.panel_Left.Size = new System.Drawing.Size(229, 635);
+            this.panel_Left.Size = new System.Drawing.Size(229, 633);
             this.panel_Left.TabIndex = 2;
             // 
             // lbStatus
@@ -199,7 +226,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.comboBoxCamera);
             this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Location = new System.Drawing.Point(5, 428);
+            this.groupBox1.Location = new System.Drawing.Point(5, 426);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(219, 196);
             this.groupBox1.TabIndex = 0;
@@ -257,6 +284,7 @@
             this.comboBoxCOMPort.Name = "comboBoxCOMPort";
             this.comboBoxCOMPort.Size = new System.Drawing.Size(111, 21);
             this.comboBoxCOMPort.TabIndex = 25;
+            this.comboBoxCOMPort.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // comboBoxBaud
             // 
@@ -267,6 +295,7 @@
             this.comboBoxBaud.Name = "comboBoxBaud";
             this.comboBoxBaud.Size = new System.Drawing.Size(111, 21);
             this.comboBoxBaud.TabIndex = 26;
+            this.comboBoxBaud.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -286,6 +315,7 @@
             this.comboBoxCamera.Name = "comboBoxCamera";
             this.comboBoxCamera.Size = new System.Drawing.Size(111, 21);
             this.comboBoxCamera.TabIndex = 23;
+            this.comboBoxCamera.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
@@ -305,7 +335,7 @@
             this.panel_Main.Location = new System.Drawing.Point(0, 24);
             this.panel_Main.Name = "panel_Main";
             this.panel_Main.Padding = new System.Windows.Forms.Padding(10);
-            this.panel_Main.Size = new System.Drawing.Size(1035, 635);
+            this.panel_Main.Size = new System.Drawing.Size(1035, 633);
             this.panel_Main.TabIndex = 3;
             // 
             // lbTitle
@@ -330,7 +360,7 @@
             this.pgCam.BackColor = System.Drawing.Color.Black;
             this.pgCam.Location = new System.Drawing.Point(10, 54);
             this.pgCam.Name = "pgCam";
-            this.pgCam.Size = new System.Drawing.Size(1015, 571);
+            this.pgCam.Size = new System.Drawing.Size(1015, 569);
             this.pgCam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pgCam.TabIndex = 0;
             this.pgCam.TabStop = false;
@@ -401,6 +431,9 @@
         private System.Windows.Forms.Timer timerTest;
         private System.Windows.Forms.Label lbStatus;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Error;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSentData;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusConnect_SerialPort;
     }
 }
 

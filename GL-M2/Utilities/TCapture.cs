@@ -166,60 +166,6 @@ namespace GL_M2.Utilities
             }
         }
 
-
-        /* private void FrameCapture(object state)
-         {
-             try
-             {
-                 if (_videoCapture.IsOpened())
-                 {
-                     if (_onStarted)
-                     {
-                         OnVideoStarted?.Invoke();
-                         _onStarted = false;
-                     }
-                     using (OpenCvSharp.Mat frame = _videoCapture.RetrieveMat())
-                     {
-                         if (frame.Empty())
-                         {
-                             OnError?.Invoke("Frame is empty");
-                         }
-                         else
-                         {
-                             using (Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame))
-                             {
-                                 OnFrameHeader?.Invoke(bitmap);
-                             }
-
-                             OnFrameHeaderMat?.Invoke(frame);
-                             OnEvent?.Invoke();
-                             frameCount++;
-                             if (!stopwatchFrame.IsRunning)
-                             {
-                                 stopwatchFrame.Start();
-                             }
-                             else
-                             {
-                                 double elapsedSeconds = stopwatchFrame.Elapsed.TotalSeconds;
-                                 if (elapsedSeconds >= 1)
-                                 {
-                                     rateFPS = frameCount / elapsedSeconds;
-                                     frameCount = 0;
-                                     stopwatchFrame.Restart();
-                                 }
-                             }
-                         }
-                     }
-                 }
-             }
-             catch (Exception ex)
-             {
-                 OnError?.Invoke(ex.Message);
-             }
-         }
-
-         */
-
         public void setFrame(int width, int height)
         {
             _videoCapture?.Set(OpenCvSharp.VideoCaptureProperties.FrameWidth, width);
