@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
+using Pen = System.Drawing.Pen;
 
 namespace GL_M2.Forms
 {
@@ -66,7 +70,8 @@ namespace GL_M2.Forms
             {
                 dgvRectangles.Rows[rowIndex].Selected = true;
                 dgvRectangles.CurrentCell = dgvRectangles.Rows[rowIndex].Cells[1];
-            }else if(dgvRectangles.Rows.Count > 0)
+            }
+            else if (dgvRectangles.Rows.Count > 0)
             {
                 dgvRectangles.Rows[0].Selected = true;
                 dgvRectangles.CurrentCell = dgvRectangles.Rows[0].Cells[1];
@@ -80,7 +85,7 @@ namespace GL_M2.Forms
 
         private void RenderDataTable(IEnumerable<SQliteDataAccess.Rectangles> rectangles)
         {
-            isRenderingTable = rectangles.Count() == 1? false : true;
+            isRenderingTable = rectangles.Count() == 1 ? false : true;
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(int));
             dt.Columns.Add("no", typeof(int));
@@ -109,7 +114,7 @@ namespace GL_M2.Forms
             isRenderingTable = false;
 
             // Get selected row
-            SelectTableRow(selectedRow,0);
+            SelectTableRow(selectedRow, 0);
         }
 
         private string getRectanglesName(SQliteDataAccess.Rectangles rectangles)
@@ -211,16 +216,16 @@ namespace GL_M2.Forms
             {
                 graphics.DrawImage(this.image, 0, 0);
 
-                if(rectangles.Count == 1)
+                if (rectangles.Count == 1)
                 {
-                   DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.current_point_color);
+                    DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, Properties.Settings.Default.current_point_color);
                 }
                 else
                 {
                     foreach (var rec in rectangles)
                     {
                         Color color = rec.id == id ? Properties.Settings.Default.current_point_color : Properties.Settings.Default.point_color;
-                        if(rec.id == id)
+                        if (rec.id == id)
                         {
                             DrawRectangleToImage(bitmap, (int)npX.Value, (int)npY.Value, (int)npWidth.Value, (int)npHeight.Value, color);
                         }
@@ -230,7 +235,7 @@ namespace GL_M2.Forms
                         }
                     }
                 }
-               
+
 
                 if (id == 0)
                 {
@@ -305,7 +310,8 @@ namespace GL_M2.Forms
         private void cbPoint_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox box = (ComboBox)sender;
-            switch(box.Name){
+            switch (box.Name)
+            {
                 case "cbPoint":
                     Properties.Settings.Default.point_color = cbPoint.SelectedValue;
                     break;
@@ -322,7 +328,7 @@ namespace GL_M2.Forms
 
         private void scrollablePictureBox_Click(object sender, EventArgs e)
         {
-            if(npX.Enabled && npY.Enabled)
+            if (npX.Enabled && npY.Enabled)
             {
                 // Get x and y coordinates of mouse click relative to image
                 MouseEventArgs me = (MouseEventArgs)e;
@@ -334,5 +340,128 @@ namespace GL_M2.Forms
                 npY.Value = y;
             }
         }
+
+        private Task task;
+        string filePath = "";
+        string sheetName = "";
+        private void toExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*
+            return;
+            if (task != null && task.Status == TaskStatus.Running)
+            {
+                MessageBox.Show("Please wait for the current task to finish");
+                return;
+            }
+
+            // Check picture box image
+            if (scrollablePictureBox.Image == null)
+            {
+                MessageBox.Show("Please load an image first");
+                return;
+            }
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Excel Files|*.xlsx";
+                sfd.Title = "Save an Excel File";
+                sfd.FileName = "ColorData";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = sfd.FileName;
+                    sheetName = Path.GetFileNameWithoutExtension(filePath);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            task = Task.Run(() =>
+            {
+                int row = 1;
+
+                int totalRows = scrollablePictureBox.Image.Height * scrollablePictureBox.Image.Width;
+                int totalMaxRows = 500000;
+                int totalSheets = (int)Math.Ceiling((double)totalRows / totalMaxRows);
+                int totalRowsPerSheet = (int)Math.Ceiling((double)totalRows / totalSheets);
+                int SheetNumb = 1;
+                int Count = 0;
+                
+                using (var package = new ExcelPackage(new FileInfo(filePath)))
+                {
+                    for (int height = 0; height < scrollablePictureBox.Image.Height; height++)
+                    {
+                        for (int width = 0; width < scrollablePictureBox.Image.Width; width++)
+                        {
+                            Color color = ((Bitmap)scrollablePictureBox.Image).GetPixel(width, height);
+
+                            string hex = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+
+                            if (Count == 0)
+                            {
+                                row = 1;
+                                SaveColorToExcel(package, color, hex, width, height, row, sheetName + "_" + SheetNumb);
+                            }
+                            else
+                            {
+                                row++;
+                                SaveColorToExcel(package, color, hex, width, height, row, sheetName + "_" + SheetNumb);
+                            }
+                            Count++;
+                            if (Count == totalRowsPerSheet)
+                            {
+                                Count = 0;
+                                SheetNumb++;
+                            }
+      
+                            if (InvokeRequired)
+                            {
+                                Invoke(new Action(() =>
+                                {
+                                    toolStripProgressBar1.Value = (int)Math.Ceiling((double)(height * scrollablePictureBox.Image.Width + width) / totalRows * 100);
+                                }));
+                            }
+                        }
+                        Console.WriteLine("Numb" + Count);
+                    }
+                    // Save the changes
+                    package.Save();
+                }
+            });
+            */
+        }
+
+        private void SaveColorToExcel(ExcelPackage package, System.Drawing.Color color, string hex, int x, int y, int row , string sheetName)
+        {
+            // Check if the worksheet already exists
+            var worksheet = package.Workbook.Worksheets[sheetName];
+            int colX = 1;
+            int colY = colX + 1;
+            int colR = colY + 1;
+            int colG = colR + 1;
+            int colB = colG + 1;
+            int colHex = colB + 1;
+
+            if (worksheet == null)
+            {
+                worksheet = package.Workbook.Worksheets.Add(sheetName);
+
+                // Define headers
+                worksheet.Cells[1, colX].Value = "X";
+                worksheet.Cells[1, colY].Value = "Y";
+                worksheet.Cells[1, colR].Value = "R";
+                worksheet.Cells[1, colG].Value = "G";
+                worksheet.Cells[1, colB].Value = "B";
+                worksheet.Cells[1, colHex].Value = "Hex";
+            }
+
+            // Apply the color to the cell
+            worksheet.Cells[row, colX].Value = x.ToString();
+            worksheet.Cells[row, colY].Value = y.ToString();
+            worksheet.Cells[row, colR].Value = color.R.ToString();
+            worksheet.Cells[row, colG].Value = color.G.ToString();
+            worksheet.Cells[row, colB].Value = color.B.ToString();
+            worksheet.Cells[row, colHex].Value = hex;
+        }
+
     }
 }

@@ -210,21 +210,22 @@ namespace GL_M2
 
         private void UpdateResult(Result res, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
         {
-            res.R = color.R;
-            res.G = color.G;
-            res.B = color.B;
-            res.MinR = r_min;
-            res.MinG = g_min;
-            res.MinB = b_min;
-            res.MaxR = r_max;
-            res.MaxG = g_max;
-            res.MaxB = b_max;
-            res.Slave_R = color_slave.R;
-            res.Slave_G = color_slave.G;
-            res.Slave_B = color_slave.B;
-            res.status = STATUS.FINISHED;
-            //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
-            res.result = GetStatus(color_slave, color);
+                res.R = color.R;
+                res.G = color.G;
+                res.B = color.B;
+                res.MinR = r_min;
+                res.MinG = g_min;
+                res.MinB = b_min;
+                res.MaxR = r_max;
+                res.MaxG = g_max;
+                res.MaxB = b_max;
+                res.Slave_R = color_slave.R;
+                res.Slave_G = color_slave.G;
+                res.Slave_B = color_slave.B;
+                res.status = STATUS.FINISHED;
+                //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
+                res.result = GetStatus(color_slave, color);
+
         }
 
         private void AddNewResult(SQliteDataAccess.Rectangles r, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
@@ -246,9 +247,10 @@ namespace GL_M2
                 Slave_B = color_slave.B,
                 status = STATUS.FINISHED,
                 //result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG
-                result = GetStatus(color_slave, color)
-            }); ; ;
+                result = STATUS.NG // GetStatus(color_slave, color)
+            });
         }
+
         private string[] color_name_s;
         private string[] color_name_m;
 
@@ -267,6 +269,12 @@ namespace GL_M2
                 return STATUS.OK;
             }
 
+            if (color_name_m[3].ToLower().Contains(color_name_s[3].ToLower()) || color_name_s[3].ToLower().Contains(color_name_m[3].ToLower()))
+            {
+                return STATUS.OK;
+            }
+
+            Console.WriteLine("Master "+color_name_m[3] +" == "+color_name_s[3]+", HEX "+ color_name_s[0]);
             return STATUS.NG;
 
         }

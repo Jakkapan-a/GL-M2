@@ -111,15 +111,17 @@ namespace GL_M2
         {
             if (reset == STATUS.STOPPED)
             {
-                Color color = bmp.GetPixel(862, 40);
-                Color color2 = bmp.GetPixel(862, 38);
+                int x = (int)bmp.Width/2;
+                int y = (int)bmp.Height/2;
+                Color color = bmp.GetPixel(x, y);
+                Color color2 = bmp.GetPixel(x+10, y);
 
                 ManageResetStatus(color, color2);
             }
         }
         private void ManageResetStatus(Color color, Color color2)
         {
-            int min = 20;
+            int min = 10;
             if (!isReset && IsColorAboveMin(color, min) && IsColorAboveMin(color2, min))
             {
                 StartReset();
