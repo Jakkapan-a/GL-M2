@@ -38,7 +38,7 @@ namespace GL_M2
                 if (task.Exception != null)
                 {
                     // Log error
-                    Console.WriteLine("Task : "+task.Exception.InnerException.Message);
+                    Console.WriteLine("Task : " + task.Exception.InnerException.Message);
                 }
             });
 
@@ -93,6 +93,16 @@ namespace GL_M2
             }
         }
 
+        private void DrawToBitmaps(Bitmap bmp, Image img)
+        {
+            // Draw image master to bitmap
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.DrawImage(img, 0, 0);
+            }
+        }
+
+
         private void ProcessRectangles(Bitmap bmp_m, Bitmap bmp_s)
         {
             try
@@ -102,9 +112,10 @@ namespace GL_M2
                     ProcessRectangle(r, bmp_m, bmp_s);
                 }
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                Console.WriteLine("ProcessRectangles :"+ex.Message);
+                Console.WriteLine("ProcessRectangles :" + ex.Message);
             }
 
             if (InvokeRequired)
@@ -140,12 +151,13 @@ namespace GL_M2
                 lbStatus.BackColor = Color.Red;
             }
         }
+
         private void ProcessRectangle(SQliteDataAccess.Rectangles r, Bitmap bmp_m, Bitmap bmp_s)
         {
             //// Get RGB value of pixel center of rectangle
             //int x = (int)r.x + (int)r.width / 2;
             //int y = (int)r.y + (int)r.height / 2;
-            Color color = AverageColor(r,bmp_m);//bmp_m.GetPixel(x, y);
+            Color color = AverageColor(r, bmp_m);//bmp_m.GetPixel(x, y);
 
 
             int total = CalcPct(255, Properties.Settings.Default.percent_check);
@@ -160,16 +172,16 @@ namespace GL_M2
             int x_slave = (int)r.x + (int)r.width / 2;
             int y_slave = (int)r.y + (int)r.height / 2;
 
-            if(x_slave < bmp_s.Width && y_slave < bmp_s.Height)
+            if (x_slave < bmp_s.Width && y_slave < bmp_s.Height)
             {
                 Color color_slave = AverageColor(r, bmp_s);// bmp_s.GetPixel(x_slave, y_slave);
-                
+
                 UpdateResultList(r, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave);
             }
 
         }
 
-        private Color AverageColor(SQliteDataAccess.Rectangles r,Bitmap bmp)
+        private Color AverageColor(SQliteDataAccess.Rectangles r, Bitmap bmp)
         {
             long totalR = 0, totalG = 0, totalB = 0;
             int count = 0;
@@ -201,6 +213,30 @@ namespace GL_M2
             {
                 // Update result
                 UpdateResult(res, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave, black);
+                if (res.result == STATUS.NG)
+                {
+                    STATUS _result = STATUS.NG;
+                    foreach (var img in images_data)
+                    {
+                        using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, img.name), FileMode.Open, FileAccess.Read))
+                        {
+                            using(Image m = Image.FromStream(fs))
+                            {
+                                using(Bitmap bm = new Bitmap(m.Width, m.Height))
+                                {
+                                    DrawToBitmaps(bm, m);
+                                    Color color_ms = AverageColor(r, bm);
+                                    _result = GetStatus(color_slave, color_ms);
+                                }
+                            }
+                        }
+                        if(_result == STATUS.OK)
+                        {                          
+                            res.result = _result;
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
@@ -211,21 +247,21 @@ namespace GL_M2
 
         private void UpdateResult(Result res, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
         {
-                res.R = color.R;
-                res.G = color.G;
-                res.B = color.B;
-                res.MinR = r_min;
-                res.MinG = g_min;
-                res.MinB = b_min;
-                res.MaxR = r_max;
-                res.MaxG = g_max;
-                res.MaxB = b_max;
-                res.Slave_R = color_slave.R;
-                res.Slave_G = color_slave.G;
-                res.Slave_B = color_slave.B;
-                res.status = STATUS.FINISHED;
-                //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
-                res.result = GetStatus(color_slave, color);
+            res.R = color.R;
+            res.G = color.G;
+            res.B = color.B;
+            res.MinR = r_min;
+            res.MinG = g_min;
+            res.MinB = b_min;
+            res.MaxR = r_max;
+            res.MaxG = g_max;
+            res.MaxB = b_max;
+            res.Slave_R = color_slave.R;
+            res.Slave_G = color_slave.G;
+            res.Slave_B = color_slave.B;
+            res.status = STATUS.FINISHED;
+            //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
+            res.result = GetStatus(color_slave, color);
 
         }
 
@@ -255,9 +291,9 @@ namespace GL_M2
         private string[] color_name_s;
         private string[] color_name_m;
 
-        private STATUS GetStatus(Color color_slave,Color color)
+        private STATUS GetStatus(Color color_slave, Color color)
         {
-            color_name_s = _colorName.Name(_colorName.RgbToHex(color_slave.R,color_slave.G,color_slave.B));
+            color_name_s = _colorName.Name(_colorName.RgbToHex(color_slave.R, color_slave.G, color_slave.B));
 
             if (color_name_s[3].ToLower() == "black")
             {
@@ -265,7 +301,7 @@ namespace GL_M2
             }
             color_name_m = _colorName.Name(_colorName.RgbToHex(color.R, color.G, color.B));
 
-            if(color_name_s[3].ToLower() == color_name_m[3].ToLower())
+            if (color_name_s[3].ToLower() == color_name_m[3].ToLower())
             {
                 return STATUS.OK;
             }
@@ -275,7 +311,7 @@ namespace GL_M2
                 return STATUS.OK;
             }
 
-            Console.WriteLine("Master "+color_name_m[3] +" == "+color_name_s[3]+", HEX "+ color_name_s[0]);
+            //Console.WriteLine("Master " + color_name_m[3] + " == " + color_name_s[3] + ", HEX " + color_name_s[0]);
             return STATUS.NG;
 
         }

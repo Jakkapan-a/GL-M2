@@ -30,6 +30,7 @@ namespace GL_M2
             _colorName = new ColorName();
         }
         private List<GL_M2.SQliteDataAccess.Images> images_data;
+        private List<Image> list_images_data;
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
         private int driveindex = 0;
@@ -278,7 +279,7 @@ namespace GL_M2
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            StartReset();
         }
     }
 }
