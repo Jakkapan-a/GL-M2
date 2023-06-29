@@ -29,6 +29,7 @@ namespace GL_M2
             InitializeSerialPort();
             _colorName = new ColorName();
         }
+        private List<GL_M2.SQliteDataAccess.Images> images_data;
         private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
         private int driveindex = 0;
@@ -238,6 +239,7 @@ namespace GL_M2
             KeyEventArgs kea = new KeyEventArgs(Keys.Enter);
             txtModels_KeyDown(sender, kea);
         }
+        
 
         private void txtModels_KeyDown(object sender, KeyEventArgs e)
         {
@@ -255,6 +257,7 @@ namespace GL_M2
                 }
                 model_id = model.id;
                 rectangles = SQliteDataAccess.Rectangles.GetByModelId(model.id);
+                images_data = SQliteDataAccess.Images.GetByModelId(model.id);
                 toolStripStatusLabel_Id.Text = $"Model ID: {model_id}";
                 lbTitle.Text = $"Model: {model.name}";
             }

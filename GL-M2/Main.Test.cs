@@ -163,6 +163,7 @@ namespace GL_M2
             if(x_slave < bmp_s.Width && y_slave < bmp_s.Height)
             {
                 Color color_slave = AverageColor(r, bmp_s);// bmp_s.GetPixel(x_slave, y_slave);
+                
                 UpdateResultList(r, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave);
             }
 
