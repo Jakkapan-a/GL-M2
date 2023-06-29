@@ -42,13 +42,17 @@
             this.npToggle_time = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.npTriangle_length = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.npMedianBlur = new System.Windows.Forms.NumericUpDown();
             this.cbColorNG = new GL_M2.Controls.ColorPicker();
             this.cbColorOK = new GL_M2.Controls.ColorPicker();
+            this.cbIsMedianBlur = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.npTime_process)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npPercent_check)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npCircle_radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npToggle_time)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npTriangle_length)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npMedianBlur)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -229,6 +233,34 @@
             0});
             this.npTriangle_length.ValueChanged += new System.EventHandler(this.nP_ValueChanged);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(36, 302);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Median Blur";
+            // 
+            // npMedianBlur
+            // 
+            this.npMedianBlur.Location = new System.Drawing.Point(126, 300);
+            this.npMedianBlur.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.npMedianBlur.Name = "npMedianBlur";
+            this.npMedianBlur.Size = new System.Drawing.Size(216, 20);
+            this.npMedianBlur.TabIndex = 2;
+            this.npMedianBlur.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.npMedianBlur.Value = Properties.Settings.Default.medianBlur;
+            this.npMedianBlur.ValueChanged += new System.EventHandler(this.nP_ValueChanged);
+            // 
             // cbColorNG
             // 
             this.cbColorNG.BackColor = System.Drawing.Color.White;
@@ -255,17 +287,31 @@
             this.cbColorOK.TabIndex = 0;
             this.cbColorOK.SelectedIndexChanged += new System.EventHandler(this.cbColor_SelectedIndexChanged);
             // 
+            // cbIsMedianBlur
+            // 
+            this.cbIsMedianBlur.AutoSize = true;
+            this.cbIsMedianBlur.Location = new System.Drawing.Point(105, 302);
+            this.cbIsMedianBlur.Name = "cbIsMedianBlur";
+            this.cbIsMedianBlur.Size = new System.Drawing.Size(15, 14);
+            this.cbIsMedianBlur.TabIndex = 3;
+            this.cbIsMedianBlur.UseVisualStyleBackColor = true;
+            this.cbIsMedianBlur.Checked = Properties.Settings.Default.isMedianBlur;
+            this.cbIsMedianBlur.CheckedChanged += new System.EventHandler(this.cbIsMedianBlur_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 318);
+            this.ClientSize = new System.Drawing.Size(354, 358);
+            this.Controls.Add(this.cbIsMedianBlur);
             this.Controls.Add(this.npTriangle_length);
             this.Controls.Add(this.npCircle_radius);
+            this.Controls.Add(this.npMedianBlur);
             this.Controls.Add(this.npPercent_check);
             this.Controls.Add(this.npToggle_time);
             this.Controls.Add(this.npTime_process);
             this.Controls.Add(this.label10);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label9);
@@ -286,6 +332,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.npCircle_radius)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npToggle_time)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npTriangle_length)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npMedianBlur)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,5 +355,8 @@
         private System.Windows.Forms.NumericUpDown npToggle_time;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown npTriangle_length;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown npMedianBlur;
+        private System.Windows.Forms.CheckBox cbIsMedianBlur;
     }
 }

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DirectShowLib.DMO;
+using OpenCvSharp;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -118,13 +121,16 @@ namespace GL_M2.Utilities
                 return;
             }
 
-            using (Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame))
+            using (OpenCvSharp.Mat mat = ReduceNoise(frame))
             {
-                OnFrameHeader?.Invoke(bitmap);
+                using (Bitmap bitmap = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(mat))
+                {
+                    OnFrameHeader?.Invoke(bitmap);
+                }
+                OnFrameHeaderMat?.Invoke(mat);
+                OnEvent?.Invoke();
             }
 
-            OnFrameHeaderMat?.Invoke(frame);
-            OnEvent?.Invoke();
             frameCount++;
             if (!stopwatchFrame.IsRunning)
             {
@@ -140,6 +146,112 @@ namespace GL_M2.Utilities
                     stopwatchFrame.Restart();
                 }
             }
+        }
+        private const float h = 3f;
+        private const float hColor = 3f;
+        private const int templateWindowSize = 1;
+        private const int searchWindowSize = 3;
+        // Set the parameters for GaussianBlur
+        private const int blurSize = 5; // Increase this for more aggressive noise reduction
+        public Mat ReduceNoise(Mat src)
+        {
+            if(!Properties.Settings.Default.isMedianBlur)
+                return src;
+
+            Mat dst = new Mat();
+            int blur = Properties.Settings.Default.medianBlur;
+            blur = blur % 2==0 ? blur+1 : blur;
+            Cv2.MedianBlur(src, dst, blur);
+            //int blurSize = 5;
+            //Cv2.GaussianBlur(src, dst, new OpenCvSharp.Size(blurSize, blurSize), 0);
+            //Cv2.FastNlMeansDenoisingColored(src, dst, h, hColor, templateWindowSize, searchWindowSize);
+            return dst;
+        }
+
+        private const double sigma = 1.5;
+        private const double threshold = 5.0;
+        private const double amount = 1.5;
+
+        public Mat Sharpen(Mat src)
+        {
+
+
+         const double sigma = 1.5;
+         const double threshold = 5.0;
+         const double amount = 1.5;
+            // Ensure src is floating point image
+            if (src.Type() != MatType.CV_32FC3)
+            {
+                src.ConvertTo(src, MatType.CV_32FC3);
+            }
+
+            // Create the blurred version of the image
+            Mat blurred = new Mat();
+            Mat dst = new Mat();
+            Cv2.GaussianBlur(src, blurred, new OpenCvSharp.Size(), sigma, sigma);
+
+            // Subtract the blurred image from the source image
+            Mat lowContrastMask = new Mat();
+            Cv2.Absdiff(src, blurred, lowContrastMask);
+
+            // Create a mask for the edges that we want to sharpen
+            Mat mask = new Mat();
+            Cv2.Compare(lowContrastMask, threshold, mask, CmpType.LE);
+
+            // Scale the source image
+            Mat scaledSrc = new Mat();
+            src.ConvertTo(scaledSrc, MatType.CV_32FC3, amount);
+
+            // Scale the blurred image
+            Mat scaledBlur = new Mat();
+            blurred.ConvertTo(scaledBlur, MatType.CV_32FC3, 1.0 - amount);
+
+            // Combine the scaled images
+            Cv2.AddWeighted(scaledSrc, 1.0 - amount, scaledBlur, amount, 0, dst);
+
+            // Convert back to 8 bit image before returning
+            dst.ConvertTo(dst, MatType.CV_8UC3);
+
+            // Clean up
+            blurred.Dispose();
+            lowContrastMask.Dispose();
+            mask.Dispose();
+            scaledSrc.Dispose();
+            scaledBlur.Dispose();
+            return dst;
+        }
+
+        public void Sharpen(Mat src, Mat dst)
+        {
+            // Create the blurred version of the image
+            Mat blurred = new Mat();
+            Cv2.GaussianBlur(src, blurred, new OpenCvSharp.Size(), sigma, sigma);
+
+            // Subtract the blurred image from the source image
+            Mat lowContrastMask = new Mat();
+            Cv2.Absdiff(src, blurred, lowContrastMask);
+
+            // Create a mask for the edges that we want to sharpen
+            Mat mask = new Mat();
+            Cv2.Compare(lowContrastMask, threshold, mask, CmpType.LE);
+
+            // Scale the source image
+            Mat scaledSrc = new Mat();
+            src.ConvertTo(scaledSrc, MatType.CV_8UC3, amount);
+
+            // Scale the blurred image
+            Mat scaledBlur = new Mat();
+            blurred.ConvertTo(scaledBlur, MatType.CV_8UC3, 1.0 - amount);
+
+            // Combine the scaled images
+            Cv2.AddWeighted(scaledSrc, 1.0 - amount, scaledBlur, amount, 0, dst);
+
+            // Clean up
+            blurred.Dispose();
+            lowContrastMask.Dispose();
+            mask.Dispose();
+            scaledSrc.Dispose();
+            scaledBlur.Dispose();
         }
 
         private void FrameCapture(object state)
@@ -157,6 +269,7 @@ namespace GL_M2.Utilities
 
                 using (OpenCvSharp.Mat frame = _videoCapture.RetrieveMat())
                 {
+ 
                     ProcessFrame(frame);
                 }
             }

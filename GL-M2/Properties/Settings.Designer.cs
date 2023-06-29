@@ -154,5 +154,29 @@ namespace GL_M2.Properties {
                 this["percent_check"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int medianBlur {
+            get {
+                return ((int)(this["medianBlur"]));
+            }
+            set {
+                this["medianBlur"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isMedianBlur {
+            get {
+                return ((bool)(this["isMedianBlur"]));
+            }
+            set {
+                this["isMedianBlur"] = value;
+            }
+        }
     }
 }
