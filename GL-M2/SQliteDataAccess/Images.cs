@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GL_M2.SQliteDataAccess
 {
@@ -19,8 +16,8 @@ namespace GL_M2.SQliteDataAccess
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@model_id", this.model_id);
             parameters.Add("@name", this.name);
-            parameters.Add("@created_at", this.created_at);
-            parameters.Add("@updated_at", this.updated_at);            
+            parameters.Add("@created_at", SQLiteDataAccess.GetDateTimeNow());
+            parameters.Add("@updated_at",  SQLiteDataAccess.GetDateTimeNow());            
             SQLiteDataAccess.Execute(query, parameters);
         }
 
@@ -30,7 +27,7 @@ namespace GL_M2.SQliteDataAccess
             parameters.Add("@id", this.id);
             parameters.Add("@model_id", this.model_id);
             parameters.Add("@name", this.name);
-            parameters.Add("@updated_at", this.updated_at);            
+            parameters.Add("@updated_at",  SQLiteDataAccess.GetDateTimeNow());            
             SQLiteDataAccess.Execute(query, parameters);
         }
 
@@ -58,6 +55,13 @@ namespace GL_M2.SQliteDataAccess
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("@model_id", model_id);
             return SQLiteDataAccess.Query<Images>(query, parameters);
+        }
+
+        public static bool IsImageExist(string name){
+            string query = "SELECT * FROM images WHERE name = @name";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@name", name);
+            return SQLiteDataAccess.Query<Images>(query, parameters).Any();
         }
     }
 }

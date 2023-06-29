@@ -171,5 +171,15 @@ namespace GL_M2.SQliteDataAccess
             parameters.Add("@id", id);
             return SQLiteDataAccess.Query<Models>(sql, parameters).Any();
         }
+
+        /// <summary>
+        /// Get last id from database
+        /// </summary>
+        /// <returns></returns>
+        public static int GetLastId()
+        {
+            string sql = "SELECT id FROM models ORDER BY id DESC LIMIT 1";
+            return SQLiteDataAccess.Query<Models>(sql).FirstOrDefault().id;
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace GL_M2.Forms
         }
 
         private int id;
-        private bool isRenderingTable  = false;
+        private bool isRenderingTable = false;
         private STATUS status;
         private void Models_Load(object sender, EventArgs e)
         {
@@ -41,7 +41,7 @@ namespace GL_M2.Forms
             selectedRow = -1;
         }
 
-        private void SelectTableRow(int rowIndex ,int columnIndex = 1)
+        private void SelectTableRow(int rowIndex, int columnIndex = 1)
         {
             if (rowIndex != -1 && rowIndex < dgvModels.Rows.Count && dgvModels.Rows.Count > columnIndex)
             {
@@ -65,7 +65,7 @@ namespace GL_M2.Forms
         private int selectedRow = -1;
         private void RenderDataTable(IEnumerable<SQliteDataAccess.Models> models)
         {
-            isRenderingTable  = models.Count() == 1? false : true;
+            isRenderingTable = models.Count() == 1 ? false : true;
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(int));
             dt.Columns.Add("no", typeof(int));
@@ -97,7 +97,7 @@ namespace GL_M2.Forms
             // Set column  No width 15%
             dgvModels.Columns["No"].Width = dgvModels.Width * 15 / 100;
 
-            isRenderingTable  = false;
+            isRenderingTable = false;
 
             // Get selected old row
             SelectTableRow(selectedRow, 0);
@@ -106,7 +106,7 @@ namespace GL_M2.Forms
 
         private void dgvModels_SelectionChanged(object sender, EventArgs e)
         {
-            if (isRenderingTable )
+            if (isRenderingTable)
                 return;
 
             // Get selected row id
@@ -265,12 +265,31 @@ namespace GL_M2.Forms
                 model.image = filename;
                 model.Save();
                 selectedRow++;
+
+                if (images_clone != null)
+                {
+                    int model_last_id = SQliteDataAccess.Models.GetLastId();
+
+                    if(model_last_id != 0)
+                    {
+                        foreach (var im in images_clone)
+                        {
+                            string filename_image = Guid.NewGuid().ToString() + ".jpg";
+                            filename_image = filename_image.Replace("-", "_");
+                            // Save image
+                            im.Value.Save(Path.Combine(Properties.Resources.path_image, filename_image), ImageFormat.Jpeg);
+                            SQliteDataAccess.Images img = new SQliteDataAccess.Images();
+                            img.model_id = model_last_id;
+                            img.name = filename_image;
+                            img.Save();
+                        }
+                    }
+                }
             }
             else if (this.id > 0)
             {
                 // Update
                 string filename = "";
-
                 SQliteDataAccess.Models model = SQliteDataAccess.Models.Get(this.id);
                 model.name = txtModel.Text.Trim();
                 model.description = txtDescription.Text.Trim();
@@ -287,6 +306,21 @@ namespace GL_M2.Forms
                         File.Delete(Path.Combine(Properties.Resources.path_image, model.image));
                     }
                     model.image = filename;
+
+                    if (images_clone != null)
+                    {
+                        foreach (var im in images_clone)
+                        {
+                            string filename_image = Guid.NewGuid().ToString() + ".jpg";
+                            filename_image = filename_image.Replace("-", "_");
+                            // Save image
+                            im.Value.Save(Path.Combine(Properties.Resources.path_image, filename_image), ImageFormat.Jpeg);
+                            SQliteDataAccess.Images img = new SQliteDataAccess.Images();
+                            img.model_id = this.id;
+                            img.name = filename_image;
+                            img.Save();
+                        }
+                    }
                 }
                 model.Update();
             }
@@ -377,21 +411,31 @@ namespace GL_M2.Forms
         private void Rectangles_FormClosed(object sender, FormClosedEventArgs e)
         {
             //RenderTable();
-            dgvModels_SelectionChanged(sender,e);
+            dgvModels_SelectionChanged(sender, e);
         }
 
+        private Dictionary<int, Image> images_clone;
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if(this.main.image != null)
+            if (this.main.image != null)
             {
                 pgMaster.Image?.Dispose();
                 pgMaster.Image = (Image)this.main.image.Clone();
+
+                if (this.main.images != null)
+                {
+                    images_clone = new Dictionary<int, Image>(this.main.images.Count);
+                    foreach (var kv in this.main.images)
+                    {
+                        images_clone[kv.Key] = (Image)kv.Value.Clone();
+                    }
+                }
             }
         }
 
         private void txtModel_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 this.ActiveControl = txtDescription;
                 txtDescription.Focus();
@@ -405,10 +449,10 @@ namespace GL_M2.Forms
             if (pgMaster.Image == null) return;
             if (id < 1) return;
             var rectangles = SQliteDataAccess.Rectangles.GetByModelId(this.id);
-            using(Bitmap bitmap = new Bitmap(pgMaster.Image.Width, pgMaster.Image.Height))
+            using (Bitmap bitmap = new Bitmap(pgMaster.Image.Width, pgMaster.Image.Height))
             using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                foreach(var r in rectangles)
+                foreach (var r in rectangles)
                 {
                     graphics.DrawImage(pgMaster.Image, r.x, r.y, r.width, r.height);
                     graphics.DrawRectangle(new Pen(Color.Red, 1), r.x, r.y, r.width, r.height);

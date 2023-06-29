@@ -189,7 +189,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQliteDataAccess\Data.cs" />
+    <Compile Include="SQliteDataAccess\Images.cs" />
     <Compile Include="SQliteDataAccess\Models.cs" />
     <Compile Include="SQliteDataAccess\Rectangles.cs" />
     <Compile Include="SQliteDataAccess\SQliteDataAccess.cs" />

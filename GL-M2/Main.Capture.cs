@@ -37,7 +37,6 @@ namespace GL_M2
             // Black color
             lbStatus.Text = "Wait..";
             lbStatus.BackColor = Color.Yellow;
-            //
         }
 
         private void Capture_OnVideoStarted()
@@ -45,9 +44,7 @@ namespace GL_M2
             stopwatch.Restart();
             stopwatchTest.Restart();
         }
-        public Image image;
-        private bool isToggleNG = false;
-
+      
         private void Capture_OnFrameHeader(Bitmap bitmap)
         {
             if (InvokeRequired)
@@ -59,13 +56,32 @@ namespace GL_M2
             UpdateImage(bitmap);
             DrawRectanglesAndManageStatus(bitmap);
             CheckTestElapsed();
-
         }
-
+        public Image image;
+        public Dictionary<int, Image> images;
+        private int count_image = 0;
+        private int count_limit = 10;
         private void UpdateImage(Bitmap bitmap)
         {
             image?.Dispose();
             image = (Image)bitmap.Clone();
+            
+            if(images == null)
+            {
+                images = new Dictionary<int, Image>();
+            }
+
+            if (count_image < count_limit)
+            {
+                images.TryGetValue(count_image,out var oldImage);
+                oldImage?.Dispose();
+                images[count_image] = (Image)image.Clone();
+                count_image++;
+            }
+            else
+            {
+                count_image = 0;
+            }
         }
         private bool isReset = true;
 
@@ -96,8 +112,7 @@ namespace GL_M2
             }
         }
         private void DrawAllRectangles(Graphics g)
-        {
-         
+        {         
             if (rectangles != null && rectangles.Count > 0)
             {
                 foreach (var rectangle in rectangles)
@@ -105,7 +120,6 @@ namespace GL_M2
                     DrawRectangleAndCheckStatus(g, rectangle);
                 }
             }
-
         }
         private void ManageStatus(Bitmap bmp)
         {
@@ -223,7 +237,6 @@ namespace GL_M2
             {
                 image_temp?.Dispose();
                 image_temp = (Image)image.Clone();
-
                 StartTest();
                 stopwatchTest.Restart();
                 SerialCommand(test_result);

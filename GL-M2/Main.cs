@@ -50,16 +50,16 @@ namespace GL_M2
             foreach (var file in files)
             {
                 var fileName = new FileInfo(file).Name;
-                if (!SQliteDataAccess.Models.IsImageExist(fileName))
+                if (SQliteDataAccess.Models.IsImageExist(fileName) || SQliteDataAccess.Images.IsImageExist(fileName))
+                    continue;
+
+                try
                 {
-                    try
-                    {
-                        File.Delete(file);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("File not exist : " + fileName);
-                    }
+                    File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error deleting file {fileName}: {ex.Message}");
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace GL_M2
 
         private void RefreshBaudList()
         {
-            var selectedIndex = (selectedBaud != -1 && selectedBaud < baudList.Length) ? selectedBaud :0;
+            var selectedIndex = (selectedBaud != -1 && selectedBaud < baudList.Length) ? selectedBaud : 0;
             RefreshComboBox(comboBoxBaud, baudList, selectedIndex);
         }
 
@@ -271,6 +271,11 @@ namespace GL_M2
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             SerialClose();
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
