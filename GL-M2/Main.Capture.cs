@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,9 +128,19 @@ namespace GL_M2
             {
                 int x = (int)bmp.Width/2;
                 int y = (int)bmp.Height/2;
+
                 Color color = bmp.GetPixel(x, y);
                 Color color2 = bmp.GetPixel(x+10, y);
+                //if(rectangles.Count > 1)
+                //{
+                //    x = rectangles[0].x;
+                //    y = rectangles[0].y;
+                //    color = bmp.GetPixel(x, y);
 
+                //    x = rectangles[1].x;
+                //    y = rectangles[1].y;
+                //    color2 = bmp.GetPixel(x, y);
+                //}
                 ManageResetStatus(color, color2);
             }
         }
