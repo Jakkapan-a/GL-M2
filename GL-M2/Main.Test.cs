@@ -218,6 +218,8 @@ namespace GL_M2
                     STATUS _result = STATUS.NG;
                     foreach (var img in images_data)
                     {
+                        if (!File.Exists(Path.Combine(Properties.Resources.path_image, img.name)))
+                            continue;
                         using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, img.name), FileMode.Open, FileAccess.Read))
                         {
                             using(Image m = Image.FromStream(fs))

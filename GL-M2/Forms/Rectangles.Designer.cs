@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Rectangles));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel_Id = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -56,6 +57,8 @@
             this.npX = new System.Windows.Forms.NumericUpDown();
             this.npY = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scrollablePictureBox = new System.Windows.Forms.PictureBox();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
@@ -63,9 +66,6 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.dgvRectangles = new System.Windows.Forms.DataGridView();
             this.timer_image = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pgColor)).BeginInit();
@@ -74,9 +74,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.npX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npY)).BeginInit();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scrollablePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -95,6 +95,12 @@
             this.toolStripStatusLabel_Id.Name = "toolStripStatusLabel_Id";
             this.toolStripStatusLabel_Id.Size = new System.Drawing.Size(12, 17);
             this.toolStripStatusLabel_Id.Text = "-";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar1.Visible = false;
             // 
             // groupBox1
             // 
@@ -422,6 +428,21 @@
             this.panel1.Size = new System.Drawing.Size(699, 573);
             this.panel1.TabIndex = 15;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toExcelToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 26);
+            // 
+            // toExcelToolStripMenuItem
+            // 
+            this.toExcelToolStripMenuItem.Name = "toExcelToolStripMenuItem";
+            this.toExcelToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.toExcelToolStripMenuItem.Text = "To Excel";
+            this.toExcelToolStripMenuItem.Visible = false;
+            this.toExcelToolStripMenuItem.Click += new System.EventHandler(this.toExcelToolStripMenuItem_Click);
+            // 
             // scrollablePictureBox
             // 
             this.scrollablePictureBox.Location = new System.Drawing.Point(3, 3);
@@ -497,25 +518,6 @@
             // 
             this.timer_image.Interval = 1000;
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toExcelToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 26);
-            // 
-            // toExcelToolStripMenuItem
-            // 
-            this.toExcelToolStripMenuItem.Name = "toExcelToolStripMenuItem";
-            this.toExcelToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.toExcelToolStripMenuItem.Text = "To Excel";
-            this.toExcelToolStripMenuItem.Click += new System.EventHandler(this.toExcelToolStripMenuItem_Click);
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
             // Rectangles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -540,9 +542,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.npY)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scrollablePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRectangles)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
