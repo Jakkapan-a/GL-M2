@@ -328,17 +328,12 @@ namespace GL_M2.Forms
 
         private void scrollablePictureBox_Click(object sender, EventArgs e)
         {
-            if (npX.Enabled && npY.Enabled)
-            {
-                // Get x and y coordinates of mouse click relative to image
-                MouseEventArgs me = (MouseEventArgs)e;
-                Point coordinates = me.Location;
-                int x = (int)(coordinates.X - npWidth.Value / 2);
-                int y = (int)(coordinates.Y - npHeight.Value / 2);
-                // Set x, y values to npX and npY
-                npX.Value = x;
-                npY.Value = y;
-            }
+            if(!npX.Enabled && !npY.Enabled)return;
+
+            // Get X, Y of mouse click
+            MouseEventArgs me = (MouseEventArgs)e;
+            npX.Value = me.X-((int)npWidth.Value/2);
+            npY.Value = me.Y - ((int)npHeight.Value / 2);
         }
 
         private Task task;
