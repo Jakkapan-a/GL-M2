@@ -87,6 +87,8 @@ namespace GL_M2.Forms
             dt.Columns["description"].ColumnName = "Description";
             dt.Columns["image"].ColumnName = "Image";
             dt.Columns["updated_at"].ColumnName = "Date";
+            
+            int oldSelectedRow = selectedRow;
 
             dgvModels.DataSource = dt;
 
@@ -122,7 +124,6 @@ namespace GL_M2.Forms
                 txtModel.Text = dgvModels.SelectedRows[0].Cells["Name"].Value.ToString();
                 txtDescription.Text = dgvModels.SelectedRows[0].Cells["Description"].Value.ToString();
                 // Set image
-                pgMaster.Image?.Dispose();
                 if (File.Exists(Path.Combine(Properties.Resources.path_image, dgvModels.SelectedRows[0].Cells["Image"].Value.ToString())))
                 {
                     using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, dgvModels.SelectedRows[0].Cells["Image"].Value.ToString()), FileMode.Open, FileAccess.Read))
@@ -153,7 +154,7 @@ namespace GL_M2.Forms
                 // Save selected row
                 selectedRow = dgvModels.SelectedRows[0].Index;
             }
-
+            btnSave.Text = "Save";
             status = STATUS.NONE;
         }
         private void DrawRectangleToImage(Bitmap bitmap, int x, int y, int width, int height, Color color, float penWidth = 2)
@@ -226,6 +227,9 @@ namespace GL_M2.Forms
             pgMaster.Image = null;
             // Clear selected row
             dgvModels.ClearSelection();
+
+
+            btnSave.Text = "Save";
         }
         private bool isImageChange = false;
         private void btnEdit_Click(object sender, EventArgs e)
@@ -235,6 +239,8 @@ namespace GL_M2.Forms
             txtModel.Enabled = true;
             txtDescription.Enabled = true;
             btnLoad.Enabled = true;
+
+            btnSave.Text = "Update";
             // Set focus
             this.ActiveControl = txtModel;
             txtModel.Focus();
@@ -247,7 +253,7 @@ namespace GL_M2.Forms
             // Validate text
             if (!ValidateInputFields()) return;
 
-            if (this.id == 0)
+            if (status == STATUS.NEW)
             {
                 // New
                 string filename = "";
@@ -274,7 +280,7 @@ namespace GL_M2.Forms
                     {
                         foreach (var im in images_clone)
                         {
-                            string filename_image = Guid.NewGuid().ToString() + ".jpg";
+                            string filename_image = DateTime.Now.ToString("yyyyMMdd_hhmmss") + Guid.NewGuid().ToString() + ".jpg";
                             filename_image = filename_image.Replace("-", "_");
                             // Save image
                             im.Value.Save(Path.Combine(Properties.Resources.path_image, filename_image), ImageFormat.Jpeg);
@@ -286,7 +292,7 @@ namespace GL_M2.Forms
                     }
                 }
             }
-            else if (this.id > 0)
+            else if (status == STATUS.EDIT)
             {
                 // Update
                 string filename = "";
@@ -309,9 +315,22 @@ namespace GL_M2.Forms
 
                     if (images_clone != null)
                     {
+                        var images = SQliteDataAccess.Images.GetByModelId(model.id);
+                        foreach(var img in images)
+                        {
+                            // Check image exist and move to recycle bin
+                            if (File.Exists(Path.Combine(Properties.Resources.path_image, img.name)))
+                            {
+                                // Move to recycle bin
+                                 Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(Path.Combine(Properties.Resources.path_image, img.name), Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                            }
+                            // Delete image from database
+                            img.Delete();
+                        }
+
                         foreach (var im in images_clone)
                         {
-                            string filename_image = Guid.NewGuid().ToString() + ".jpg";
+                            string filename_image = DateTime.Now.ToString("yyyyMMdd_hhmmss")+Guid.NewGuid().ToString() + ".jpg";
                             filename_image = filename_image.Replace("-", "_");
                             // Save image
                             im.Value.Save(Path.Combine(Properties.Resources.path_image, filename_image), ImageFormat.Jpeg);
@@ -323,8 +342,11 @@ namespace GL_M2.Forms
                     }
                 }
                 model.Update();
+
+
             }
 
+            btnSave.Text = "Save";
             txtModel.Enabled = false;
             txtDescription.Enabled = false;
             btnLoad.Enabled = false;
@@ -422,12 +444,14 @@ namespace GL_M2.Forms
                 pgMaster.Image?.Dispose();
                 pgMaster.Image = (Image)this.main.image.Clone();
 
-                if (this.main.images != null)
+                if (this.main.imagesQueue != null)
                 {
-                    images_clone = new Dictionary<int, Image>(this.main.images.Count);
-                    foreach (var kv in this.main.images)
+                    images_clone = new Dictionary<int, Image>(this.main.imagesQueue.Count);
+                    int no = 0;
+                    foreach (var kv in this.main.imagesQueue)
                     {
-                        images_clone[kv.Key] = (Image)kv.Value.Clone();
+                        images_clone.Add(no, (Image)kv.Clone());
+                        no++;
                     }
                 }
             }

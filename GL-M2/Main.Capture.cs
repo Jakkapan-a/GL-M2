@@ -59,36 +59,54 @@ namespace GL_M2
             CheckTestElapsed();
         }
         public Image image;
-        public Dictionary<int, Image> images;
+        // public Dictionary<int, Image> images;
+        public Queue<Image> imagesQueue;
         private int count_image = 0;
-        private int count_limit = 10;
+        public int count_images_limit = 10;
         private void UpdateImage(Bitmap bitmap)
         {
             image?.Dispose();
-            image = (Image)bitmap.Clone();
-            
-            if(images == null)
+            //image = (Image)bitmap.Clone();
+            image = new Bitmap(bitmap);
+
+
+            //if(images == null)
+            //{
+            //    images = new Dictionary<int, Image>();
+            //}
+
+            if (imagesQueue == null)
             {
-                images = new Dictionary<int, Image>();
+                imagesQueue = new Queue<Image>();
             }
 
-            if (count_image < count_limit)
+            if (imagesQueue.Count < count_images_limit)
             {
-                images.TryGetValue(count_image,out var oldImage);
-                oldImage?.Dispose();
-                images[count_image] = (Image)image.Clone();
-                count_image++;
+                imagesQueue.Enqueue((Image)image.Clone());
             }
             else
             {
-                count_image = 0;
+                imagesQueue.Dequeue()?.Dispose();
+                imagesQueue.Enqueue((Image)image.Clone());
             }
+
+            //if (count_image < count_images_limit)
+            //{
+            //    images.TryGetValue(count_image,out var oldImage);
+            //    oldImage?.Dispose();
+            //    images[count_image] = (Image)image.Clone();
+            //    count_image++;
+            //}
+            //else
+            //{
+            //    count_image = 0;
+            //}
         }
         private bool isReset = true;
 
         private void DrawRectanglesAndManageStatus(Bitmap bitmap)
         {
-            using (Bitmap bmp = new Bitmap(image.Width, image.Height))
+            using (Bitmap bmp = new Bitmap(bitmap.Width, bitmap.Height))
             {
                 DrawImageAndRectangles(bitmap, bmp);
                 // Update picture
@@ -104,7 +122,7 @@ namespace GL_M2
             {
                 using (Graphics g = Graphics.FromImage(targetBitmap))
                 {
-                    g.DrawImage(sourceBitmap, 0, 0, image.Width, image.Height);
+                    g.DrawImage(sourceBitmap, 0, 0, sourceBitmap.Width, sourceBitmap.Height);
                     DrawAllRectangles(g);
                 }
             }catch(Exception ex)
@@ -249,6 +267,7 @@ namespace GL_M2
                 image_temp?.Dispose();
                 image_temp = (Image)image.Clone();
                 StartTest();
+
                 stopwatchTest.Restart();
                 SerialCommand(test_result);
             }

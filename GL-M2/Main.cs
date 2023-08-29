@@ -241,8 +241,8 @@ namespace GL_M2
             KeyEventArgs kea = new KeyEventArgs(Keys.Enter);
             txtModels_KeyDown(sender, kea);
         }
-        
 
+        private Queue<Image> queue_image_data;
         private void txtModels_KeyDown(object sender, KeyEventArgs e)
         {
             if (e != null && e.KeyCode == Keys.Enter)
@@ -260,6 +260,41 @@ namespace GL_M2
                 model_id = model.id;
                 rectangles = SQliteDataAccess.Rectangles.GetByModelId(model.id);
                 images_data = SQliteDataAccess.Images.GetByModelId(model.id);
+                if (queue_image_data == null)
+                {
+                    queue_image_data = new Queue<Image>();
+                }
+                else
+                {
+                    if (queue_image_data.Count > 0)
+                    {
+                        // Dispose all images in queue
+                        foreach (var image in queue_image_data)
+                        {
+                            image?.Dispose();
+                        }
+                        queue_image_data.Clear();
+                    }
+                }
+
+                if (images_data != null && images_data.Count > 0)
+                {
+                    foreach (var image in images_data)
+                    {
+                        if (!File.Exists(System.IO.Path.Combine(Properties.Resources.path_image, image.name)))
+                            continue;
+                        using (FileStream fs = new FileStream(System.IO.Path.Combine(Properties.Resources.path_image, image.name), FileMode.Open, FileAccess.Read))
+                        {
+                            queue_image_data.Enqueue(Image.FromStream(fs));
+                        }
+                    }
+                }
+                else
+                {
+                    queue_image_data = null;
+                }
+
+
                 toolStripStatusLabel_Id.Text = $"Model ID: {model_id}";
                 lbTitle.Text = $"Model: {model.name}";
             }
@@ -297,7 +332,7 @@ namespace GL_M2
 
             if (InvokeRequired)
             {
-                Invoke(new Action(() =>SearchModel_OnSelect(name)));
+                Invoke(new Action(() => SearchModel_OnSelect(name)));
                 return;
             }
             txtModels.Text = name;
@@ -306,6 +341,6 @@ namespace GL_M2
 
             txtModels_KeyDown(null, keyEnter);
         }
-    
+
     }
 }

@@ -45,6 +45,7 @@
             this.panel_Left = new System.Windows.Forms.Panel();
             this.lbStatus = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.cbModels = new System.Windows.Forms.ComboBox();
             this.txtModels = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -61,7 +62,6 @@
             this.lbTitle = new System.Windows.Forms.Label();
             this.pgCam = new System.Windows.Forms.PictureBox();
             this.timerTest = new System.Windows.Forms.Timer(this.components);
-            this.btnSearch = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_Left.SuspendLayout();
@@ -213,6 +213,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Select models";
             // 
+            // btnSearch
+            // 
+            this.btnSearch.BackgroundImage = global::GL_M2.Properties.Resources.search_32;
+            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSearch.Location = new System.Drawing.Point(183, 27);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(28, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // cbModels
             // 
             this.cbModels.FormattingEnabled = true;
@@ -220,6 +231,7 @@
             this.cbModels.Name = "cbModels";
             this.cbModels.Size = new System.Drawing.Size(197, 21);
             this.cbModels.TabIndex = 1;
+            this.cbModels.Visible = false;
             this.cbModels.SelectedIndexChanged += new System.EventHandler(this.cbModels_SelectedIndexChanged);
             // 
             // txtModels
@@ -386,17 +398,6 @@
             // 
             this.timerTest.Interval = 500;
             this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackgroundImage = global::GL_M2.Properties.Resources.search_32;
-            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnSearch.Location = new System.Drawing.Point(183, 27);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(28, 23);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // Main
             // 

@@ -34,6 +34,8 @@ namespace GL_M2
             {
                 return;
             }
+       
+
 
             taskProcessTest = Task.Run(() => ProcessTest()).ContinueWith(task =>
             {
@@ -43,14 +45,11 @@ namespace GL_M2
                     Console.WriteLine("Task : " + task.Exception.InnerException.Message);
                 }
             });
-
         }
 
         private List<Result> results = new List<Result>();
-
         private void ProcessTest()
         {
-
             if (reset == STATUS.STOPPED) return;
             // Check if there is any rectangle
             if (rectangles == null || rectangles.Count == 0) return;
@@ -206,7 +205,7 @@ namespace GL_M2
             return averageColor;
         }
 
-        private void UpdateResultList(SQliteDataAccess.Rectangles r, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave,Bitmap bitmapMaster, Bitmap bitmapSlove)
+        private void UpdateResultList(SQliteDataAccess.Rectangles r, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave, Bitmap bitmapMaster, Bitmap bitmapSlove)
         {
             int black = 20;
             var res = results.FirstOrDefault(re => re.id == r.id);
@@ -215,47 +214,32 @@ namespace GL_M2
                 // Update result
                 UpdateResult(res, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave, black);
 
-                if (res.result == STATUS.NG || res.result == STATUS.NONE)
+                if (res.result == STATUS.NG)
                 {
                     STATUS _result = STATUS.NG;
-                    foreach (var img in images_data)
+                    foreach (Image image in queue_image_data)
                     {
-                        if (!File.Exists(Path.Combine(Properties.Resources.path_image, img.name)))
-                            continue;
-                        //using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, img.name), FileMode.Open, FileAccess.Read))
-                        //{
-                        //    using(Image m = Image.FromStream(fs))
-                        //    {
-                        //        using(Bitmap bm = new Bitmap(m.Width, m.Height))
-                        //        {
-                        //            DrawToBitmaps(bm, m);
-
-                        //            if (!Properties.Settings.Default.isColorDistortion)
-                        //            {
-                        //                System.Drawing.Color color_ms = AverageColor(r, bm);
-                        //                _result = GetStatus(color_slave, color_ms);
-                        //            }
-                        //            else
-                        //            {
-                        //                _result = GetStatusColorDistortion(bitmapMaster,bitmapSlove);
-                        //            }
-                        //        }
-                        //    }
-                        //}
-
-
-                        if (!Properties.Settings.Default.isColorDistortion)
+                        using (Bitmap m = new Bitmap(image.Width,image.Height))
                         {
-                            System.Drawing.Color color_ms = AverageColor(r, bitmapMaster);
+                            using(Graphics g = Graphics.FromImage(m))
+                            {
+                                g.DrawImage(image, 0, 0);
+                            }
+                            //    if (!Properties.Settings.Default.isColorDistortion)
+                            //    {
+                            //        System.Drawing.Color color_ms = AverageColor(r, m);
+                            //        _result = GetStatus(color_slave, color_ms);
+                            //    }
+                            //    else
+                            //    {
+                            //        _result = GetStatus(m, bitmapSlove);
+                            //    }
+                            System.Drawing.Color color_ms = AverageColor(r, m);
                             _result = GetStatus(color_slave, color_ms);
-                        }
-                        else
-                        {
-                            _result = GetStatus(bitmapMaster, bitmapSlove);
                         }
 
                         if (_result == STATUS.OK)
-                        {                          
+                        {
                             res.result = _result;
                             break;
                         }
@@ -269,7 +253,7 @@ namespace GL_M2
             }
         }
 
-        
+
 
         private void UpdateResult(Result res, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave, int black)
         {
@@ -287,7 +271,7 @@ namespace GL_M2
             res.Slave_B = color_slave.B;
             res.status = STATUS.FINISHED;
             //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
-            //res.result = GetStatus(color_slave, color);
+            res.result = GetStatus(color_slave, color);
 
         }
 
@@ -345,7 +329,7 @@ namespace GL_M2
         {
             var distortion = ColorDistortion(bitmapMaster, bitmapSlove);
 
-            if(distortion < Properties.Settings.Default.percent_check)
+            if (distortion < Properties.Settings.Default.percent_check)
             {
                 return STATUS.OK;
             }
