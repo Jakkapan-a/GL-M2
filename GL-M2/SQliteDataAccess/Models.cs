@@ -64,7 +64,7 @@ namespace GL_M2.SQliteDataAccess
         /// <returns></returns>
         public static List<Models> GetAll()
         {
-            string sql = "SELECT * FROM models ORDER BY id DESC LIMIT 100";
+            string sql = "SELECT * FROM models ORDER BY id ASC LIMIT 3000";
             return SQLiteDataAccess.Query<Models>(sql);
         }
 

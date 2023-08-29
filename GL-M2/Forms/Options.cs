@@ -28,6 +28,8 @@ namespace GL_M2.Forms
             npToggle_time.Value = Properties.Settings.Default.toggle_time;
             npTime_process.Value = Properties.Settings.Default.time_process;
             npPercent_check.Value = Properties.Settings.Default.percent_check;
+            cbIsColorDistortion.Checked = Properties.Settings.Default.isColorDistortion;
+
         }
 
         private void cbColor_SelectedIndexChanged(object sender, EventArgs e)
@@ -78,6 +80,12 @@ namespace GL_M2.Forms
             Properties.Settings.Default.isMedianBlur = cb.Checked;
             Properties.Settings.Default.Save();
         }
-       
+
+        private void cbIsColorDistortion_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            Properties.Settings.Default.isColorDistortion = cb.Checked;
+            Properties.Settings.Default.Save();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using GL_M2.Forms;
 using GL_M2.SQliteDataAccess;
 using GL_M2.Utilities;
+using OpenCvSharp.ML;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -281,5 +282,30 @@ namespace GL_M2
         {
             StartReset();
         }
+
+        private SelectModel selectModel;
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            selectModel?.Close();
+            selectModel = new SelectModel();
+            selectModel.OnSelect += SearchModel_OnSelect;
+            selectModel.Show();
+        }
+
+        private void SearchModel_OnSelect(string name)
+        {
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() =>SearchModel_OnSelect(name)));
+                return;
+            }
+            txtModels.Text = name;
+
+            KeyEventArgs keyEnter = new KeyEventArgs(Keys.Enter);
+
+            txtModels_KeyDown(null, keyEnter);
+        }
+    
     }
 }

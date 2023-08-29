@@ -178,5 +178,17 @@ namespace GL_M2.Properties {
                 this["isMedianBlur"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool isColorDistortion {
+            get {
+                return ((bool)(this["isColorDistortion"]));
+            }
+            set {
+                this["isColorDistortion"] = value;
+            }
+        }
     }
 }

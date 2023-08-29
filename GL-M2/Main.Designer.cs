@@ -61,6 +61,7 @@
             this.lbTitle = new System.Windows.Forms.Label();
             this.pgCam = new System.Windows.Forms.PictureBox();
             this.timerTest = new System.Windows.Forms.Timer(this.components);
+            this.btnSearch = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_Left.SuspendLayout();
@@ -202,6 +203,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnSearch);
             this.groupBox2.Controls.Add(this.cbModels);
             this.groupBox2.Controls.Add(this.txtModels);
             this.groupBox2.Location = new System.Drawing.Point(5, 16);
@@ -222,9 +224,9 @@
             // 
             // txtModels
             // 
-            this.txtModels.Location = new System.Drawing.Point(14, 31);
+            this.txtModels.Location = new System.Drawing.Point(14, 29);
             this.txtModels.Name = "txtModels";
-            this.txtModels.Size = new System.Drawing.Size(197, 20);
+            this.txtModels.Size = new System.Drawing.Size(163, 20);
             this.txtModels.TabIndex = 0;
             this.txtModels.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtModels_KeyDown);
             // 
@@ -385,6 +387,17 @@
             this.timerTest.Interval = 500;
             this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
             // 
+            // btnSearch
+            // 
+            this.btnSearch.BackgroundImage = global::GL_M2.Properties.Resources.search_32;
+            this.btnSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSearch.Location = new System.Drawing.Point(183, 27);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(28, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,6 +464,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSentData;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusConnect_SerialPort;
         private System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
 

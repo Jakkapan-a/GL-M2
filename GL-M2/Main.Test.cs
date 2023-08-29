@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using GL_M2.Utilities;
+using OpenCvSharp.Extensions;
 
 namespace GL_M2
 {
@@ -16,7 +18,7 @@ namespace GL_M2
         private int step_display = 0;
         private void timerTest_Tick(object sender, EventArgs e)
         {
-            if (lbStatus.BackColor == Color.Yellow)
+            if (lbStatus.BackColor == System.Drawing.Color.Yellow)
             {
                 step_display = (step_display + 1) % 4;
                 lbStatus.Text = "Wait".PadRight(step_display + 4, '.');
@@ -133,14 +135,14 @@ namespace GL_M2
                 test_result = SERIAL_STATUS.NONE;
                 // Black color
                 lbStatus.Text = "Wait..";
-                lbStatus.BackColor = Color.Yellow;
+                lbStatus.BackColor = System.Drawing.Color.Yellow;
                 //
             }
             else if (_total == results.Count(x => x.result == STATUS.OK))
             {
                 test_result = SERIAL_STATUS.OK;
                 lbStatus.Text = "PASS";
-                lbStatus.BackColor = Color.Green;
+                lbStatus.BackColor = System.Drawing.Color.Green;
                 // STOP
                 reset = STATUS.STOPPED;
             }
@@ -148,7 +150,7 @@ namespace GL_M2
             {
                 test_result = SERIAL_STATUS.NG;
                 lbStatus.Text = "NG";
-                lbStatus.BackColor = Color.Red;
+                lbStatus.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -157,7 +159,7 @@ namespace GL_M2
             //// Get RGB value of pixel center of rectangle
             //int x = (int)r.x + (int)r.width / 2;
             //int y = (int)r.y + (int)r.height / 2;
-            Color color = AverageColor(r, bmp_m);//bmp_m.GetPixel(x, y);
+            System.Drawing.Color color = AverageColor(r, bmp_m);//bmp_m.GetPixel(x, y);
 
 
             int total = CalcPct(255, Properties.Settings.Default.percent_check);
@@ -174,14 +176,13 @@ namespace GL_M2
 
             if (x_slave < bmp_s.Width && y_slave < bmp_s.Height)
             {
-                Color color_slave = AverageColor(r, bmp_s);// bmp_s.GetPixel(x_slave, y_slave);
+                System.Drawing.Color color_slave = AverageColor(r, bmp_s); // bmp_s.GetPixel(x_slave, y_slave);
 
-                UpdateResultList(r, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave);
+                UpdateResultList(r, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave, bmp_m, bmp_s);
             }
-
         }
 
-        private Color AverageColor(SQliteDataAccess.Rectangles r, Bitmap bmp)
+        private System.Drawing.Color AverageColor(SQliteDataAccess.Rectangles r, Bitmap bmp)
         {
             long totalR = 0, totalG = 0, totalB = 0;
             int count = 0;
@@ -190,7 +191,7 @@ namespace GL_M2
             {
                 for (int j = (int)r.y; j < (int)r.y + (int)r.height; j++)
                 {
-                    Color color = bmp.GetPixel(i, j);
+                    System.Drawing.Color color = bmp.GetPixel(i, j);
                     totalR += color.R;
                     totalG += color.G;
                     totalB += color.B;
@@ -201,11 +202,11 @@ namespace GL_M2
             int avgR = (int)(totalR / count);
             int avgG = (int)(totalG / count);
             int avgB = (int)(totalB / count);
-            Color averageColor = Color.FromArgb(avgR, avgG, avgB);
+            System.Drawing.Color averageColor = System.Drawing.Color.FromArgb(avgR, avgG, avgB);
             return averageColor;
         }
 
-        private void UpdateResultList(SQliteDataAccess.Rectangles r, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave)
+        private void UpdateResultList(SQliteDataAccess.Rectangles r, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave,Bitmap bitmapMaster, Bitmap bitmapSlove)
         {
             int black = 20;
             var res = results.FirstOrDefault(re => re.id == r.id);
@@ -213,26 +214,47 @@ namespace GL_M2
             {
                 // Update result
                 UpdateResult(res, color, r_min, r_max, g_min, g_max, b_min, b_max, color_slave, black);
-                if (res.result == STATUS.NG)
+
+                if (res.result == STATUS.NG || res.result == STATUS.NONE)
                 {
                     STATUS _result = STATUS.NG;
                     foreach (var img in images_data)
                     {
                         if (!File.Exists(Path.Combine(Properties.Resources.path_image, img.name)))
                             continue;
-                        using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, img.name), FileMode.Open, FileAccess.Read))
+                        //using (FileStream fs = new FileStream(Path.Combine(Properties.Resources.path_image, img.name), FileMode.Open, FileAccess.Read))
+                        //{
+                        //    using(Image m = Image.FromStream(fs))
+                        //    {
+                        //        using(Bitmap bm = new Bitmap(m.Width, m.Height))
+                        //        {
+                        //            DrawToBitmaps(bm, m);
+
+                        //            if (!Properties.Settings.Default.isColorDistortion)
+                        //            {
+                        //                System.Drawing.Color color_ms = AverageColor(r, bm);
+                        //                _result = GetStatus(color_slave, color_ms);
+                        //            }
+                        //            else
+                        //            {
+                        //                _result = GetStatusColorDistortion(bitmapMaster,bitmapSlove);
+                        //            }
+                        //        }
+                        //    }
+                        //}
+
+
+                        if (!Properties.Settings.Default.isColorDistortion)
                         {
-                            using(Image m = Image.FromStream(fs))
-                            {
-                                using(Bitmap bm = new Bitmap(m.Width, m.Height))
-                                {
-                                    DrawToBitmaps(bm, m);
-                                    Color color_ms = AverageColor(r, bm);
-                                    _result = GetStatus(color_slave, color_ms);
-                                }
-                            }
+                            System.Drawing.Color color_ms = AverageColor(r, bitmapMaster);
+                            _result = GetStatus(color_slave, color_ms);
                         }
-                        if(_result == STATUS.OK)
+                        else
+                        {
+                            _result = GetStatus(bitmapMaster, bitmapSlove);
+                        }
+
+                        if (_result == STATUS.OK)
                         {                          
                             res.result = _result;
                             break;
@@ -247,7 +269,9 @@ namespace GL_M2
             }
         }
 
-        private void UpdateResult(Result res, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
+        
+
+        private void UpdateResult(Result res, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave, int black)
         {
             res.R = color.R;
             res.G = color.G;
@@ -263,11 +287,11 @@ namespace GL_M2
             res.Slave_B = color_slave.B;
             res.status = STATUS.FINISHED;
             //res.result = color_slave.R < black && color_slave.G < black && color_slave.B < black ? STATUS.NONE : IsWithinRange(color_slave.R, r_min, r_max) && IsWithinRange(color_slave.G, g_min, g_max) && IsWithinRange(color_slave.B, b_min, b_max) ? STATUS.OK : STATUS.NG;
-            res.result = GetStatus(color_slave, color);
+            //res.result = GetStatus(color_slave, color);
 
         }
 
-        private void AddNewResult(SQliteDataAccess.Rectangles r, Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, Color color_slave, int black)
+        private void AddNewResult(SQliteDataAccess.Rectangles r, System.Drawing.Color color, int r_min, int r_max, int g_min, int g_max, int b_min, int b_max, System.Drawing.Color color_slave, int black)
         {
             results.Add(new Result()
             {
@@ -293,7 +317,7 @@ namespace GL_M2
         private string[] color_name_s;
         private string[] color_name_m;
 
-        private STATUS GetStatus(Color color_slave, Color color)
+        private STATUS GetStatus(System.Drawing.Color color_slave, System.Drawing.Color color)
         {
             color_name_s = _colorName.Name(_colorName.RgbToHex(color_slave.R, color_slave.G, color_slave.B));
 
@@ -317,9 +341,31 @@ namespace GL_M2
             return STATUS.NG;
 
         }
+        private STATUS GetStatus(Bitmap bitmapMaster, Bitmap bitmapSlove)
+        {
+            var distortion = ColorDistortion(bitmapMaster, bitmapSlove);
 
+            if(distortion < Properties.Settings.Default.percent_check)
+            {
+                return STATUS.OK;
+            }
+            return STATUS.NG;
+        }
         public int CalcPct(int total, double pct) => (int)Math.Round(total * pct / 100);
         public bool IsWithinRange(int input, int min, int max) => input >= min && input <= max;
+
+        public double ColorDistortion(Bitmap imgBitmap1, Bitmap imgBitmap2)
+        {
+            using (OpenCvSharp.Mat img1 = OpenCvSharp.Extensions.BitmapConverter.ToMat(imgBitmap1))
+            using (OpenCvSharp.Mat img2 = BitmapConverter.ToMat(imgBitmap2))
+            using (OpenCvSharp.Mat diff = new OpenCvSharp.Mat())
+            {
+                OpenCvSharp.Cv2.Absdiff(img1, img2, diff); // คำนวณความแตกต่างระหว่างสองภาพ
+
+                double distortion = OpenCvSharp.Cv2.Norm(diff, OpenCvSharp.NormTypes.L1); // L1 norm หรือแบบ absolute sum
+                return distortion;
+            }
+        }
     }
 
     public class Result
