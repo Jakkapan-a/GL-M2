@@ -48,12 +48,15 @@
             this.cbIsColorDistortion = new System.Windows.Forms.CheckBox();
             this.cbIsMedianBlur = new System.Windows.Forms.CheckBox();
             this.npMedianBlur = new System.Windows.Forms.NumericUpDown();
+            this.nIndexRGB = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.npTime_process)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npPercent_check)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npCircle_radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npToggle_time)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npTriangle_length)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npMedianBlur)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nIndexRGB)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -272,7 +275,7 @@
             // cbIsColorDistortion
             // 
             this.cbIsColorDistortion.AutoSize = true;
-            this.cbIsColorDistortion.Location = new System.Drawing.Point(126, 326);
+            this.cbIsColorDistortion.Location = new System.Drawing.Point(127, 354);
             this.cbIsColorDistortion.Name = "cbIsColorDistortion";
             this.cbIsColorDistortion.Size = new System.Drawing.Size(119, 17);
             this.cbIsColorDistortion.TabIndex = 4;
@@ -305,20 +308,45 @@
             this.npMedianBlur.Value = global::GL_M2.Properties.Settings.Default.medianBlur;
             this.npMedianBlur.ValueChanged += new System.EventHandler(this.nP_ValueChanged);
             // 
+            // nIndexRGB
+            // 
+            this.nIndexRGB.Location = new System.Drawing.Point(126, 326);
+            this.nIndexRGB.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.nIndexRGB.Name = "nIndexRGB";
+            this.nIndexRGB.Size = new System.Drawing.Size(216, 20);
+            this.nIndexRGB.TabIndex = 2;
+            this.nIndexRGB.Value = global::GL_M2.Properties.Settings.Default.medianBlur;
+            this.nIndexRGB.ValueChanged += new System.EventHandler(this.nP_ValueChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(50, 328);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(59, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Index RGB";
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 358);
+            this.ClientSize = new System.Drawing.Size(354, 383);
             this.Controls.Add(this.cbIsColorDistortion);
             this.Controls.Add(this.cbIsMedianBlur);
             this.Controls.Add(this.npTriangle_length);
             this.Controls.Add(this.npCircle_radius);
+            this.Controls.Add(this.nIndexRGB);
             this.Controls.Add(this.npMedianBlur);
             this.Controls.Add(this.npPercent_check);
             this.Controls.Add(this.npToggle_time);
             this.Controls.Add(this.npTime_process);
             this.Controls.Add(this.label10);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -341,6 +369,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.npToggle_time)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npTriangle_length)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npMedianBlur)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nIndexRGB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,5 +396,7 @@
         private System.Windows.Forms.NumericUpDown npMedianBlur;
         private System.Windows.Forms.CheckBox cbIsMedianBlur;
         private System.Windows.Forms.CheckBox cbIsColorDistortion;
+        private System.Windows.Forms.NumericUpDown nIndexRGB;
+        private System.Windows.Forms.Label label5;
     }
 }

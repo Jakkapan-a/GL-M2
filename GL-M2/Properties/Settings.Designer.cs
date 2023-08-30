@@ -190,5 +190,17 @@ namespace GL_M2.Properties {
                 this["isColorDistortion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int rgbName {
+            get {
+                return ((int)(this["rgbName"]));
+            }
+            set {
+                this["rgbName"] = value;
+            }
+        }
     }
 }

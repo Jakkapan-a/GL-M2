@@ -31,8 +31,8 @@ namespace GL_M2
             _colorName = new ColorName();
         }
         private List<GL_M2.SQliteDataAccess.Images> images_data;
-        private List<Image> list_images_data;
-        private Bitmap bitmap = null;
+        //private List<Image> list_images_data;
+        //private Bitmap bitmap = null;
         public string[] baudList = { "9600", "19200", "38400", "57600", "115200" };
         private int driveindex = 0;
         private void Main_Load(object sender, EventArgs e)
@@ -41,6 +41,10 @@ namespace GL_M2
             btRefresh.PerformClick();
             RenderModels();
             DeleteFileAsync();
+
+            int result = 3 + 1 * 5 / 2;
+            Console.Write("LIN :");
+            Console.WriteLine(result);
         }
 
         private Task DeleteFileAsync()
@@ -257,6 +261,7 @@ namespace GL_M2
                     MessageBox.Show("Model not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                 
                 model_id = model.id;
                 rectangles = SQliteDataAccess.Rectangles.GetByModelId(model.id);
                 images_data = SQliteDataAccess.Images.GetByModelId(model.id);

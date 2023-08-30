@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -225,15 +226,7 @@ namespace GL_M2
                             {
                                 g.DrawImage(image, 0, 0);
                             }
-                            //    if (!Properties.Settings.Default.isColorDistortion)
-                            //    {
-                            //        System.Drawing.Color color_ms = AverageColor(r, m);
-                            //        _result = GetStatus(color_slave, color_ms);
-                            //    }
-                            //    else
-                            //    {
-                            //        _result = GetStatus(m, bitmapSlove);
-                            //    }
+   
                             System.Drawing.Color color_ms = AverageColor(r, m);
                             _result = GetStatus(color_slave, color_ms);
                         }
@@ -300,23 +293,45 @@ namespace GL_M2
 
         private string[] color_name_s;
         private string[] color_name_m;
-
+        private Stopwatch stopwatchRGBName;
         private STATUS GetStatus(System.Drawing.Color color_slave, System.Drawing.Color color)
         {
             color_name_s = _colorName.Name(_colorName.RgbToHex(color_slave.R, color_slave.G, color_slave.B));
+            color_name_m = _colorName.Name(_colorName.RgbToHex(color.R, color.G, color.B));
+            int indexRGB = Properties.Settings.Default.rgbName;
+            if(stopwatchRGBName == null)
+            {
+                stopwatchRGBName = new Stopwatch();
+                stopwatchRGBName.Start();
+            }
+            if(stopwatchRGBName.ElapsedMilliseconds > 500)
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        toolStripStatusLabelrgbName.Text = $" {color_name_m[indexRGB]} = {color_name_s[indexRGB]}";
+                    }));
+                }
+                else
+                {
+                    toolStripStatusLabelrgbName.Text = $"{color_name_s[indexRGB]} = {color_name_m[indexRGB]}";
+                }
+                stopwatchRGBName.Restart();
+            }
 
             if (color_name_s[3].ToLower() == "black")
             {
                 return STATUS.NONE;
             }
-            color_name_m = _colorName.Name(_colorName.RgbToHex(color.R, color.G, color.B));
 
-            if (color_name_s[3].ToLower() == color_name_m[3].ToLower())
+
+            if (color_name_s[indexRGB].ToLower() == color_name_m[indexRGB].ToLower())
             {
                 return STATUS.OK;
             }
 
-            if (color_name_m[3].ToLower().Contains(color_name_s[3].ToLower()) || color_name_s[3].ToLower().Contains(color_name_m[3].ToLower()))
+            if (color_name_m[indexRGB].ToLower().Contains(color_name_s[indexRGB].ToLower()) || color_name_s[1].ToLower().Contains(color_name_m[indexRGB].ToLower()))
             {
                 return STATUS.OK;
             }

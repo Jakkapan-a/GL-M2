@@ -62,6 +62,7 @@
             this.lbTitle = new System.Windows.Forms.Label();
             this.pgCam = new System.Windows.Forms.PictureBox();
             this.timerTest = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusLabelrgbName = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_Left.SuspendLayout();
@@ -112,7 +113,7 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem.Text = "Reset";
             this.testToolStripMenuItem.Visible = false;
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
@@ -123,7 +124,7 @@
             this.modelsToolStripMenuItem.Name = "modelsToolStripMenuItem";
             this.modelsToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.modelsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.modelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.modelsToolStripMenuItem.Text = "Models";
             this.modelsToolStripMenuItem.Click += new System.EventHandler(this.modelsToolStripMenuItem_Click);
             // 
@@ -132,7 +133,7 @@
             this.optionsToolStripMenuItem.Image = global::GL_M2.Properties.Resources.settings__32;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -142,7 +143,8 @@
             this.toolStripStatusLabel_Id,
             this.toolStripStatusLabel_Error,
             this.toolStripStatusSentData,
-            this.toolStripStatusConnect_SerialPort});
+            this.toolStripStatusConnect_SerialPort,
+            this.toolStripStatusLabelrgbName});
             this.statusStrip1.Location = new System.Drawing.Point(0, 657);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1264, 24);
@@ -399,6 +401,13 @@
             this.timerTest.Interval = 500;
             this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
             // 
+            // toolStripStatusLabelrgbName
+            // 
+            this.toolStripStatusLabelrgbName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabelrgbName.Name = "toolStripStatusLabelrgbName";
+            this.toolStripStatusLabelrgbName.Size = new System.Drawing.Size(16, 19);
+            this.toolStripStatusLabelrgbName.Text = "-";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,6 +475,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusConnect_SerialPort;
         private System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelrgbName;
     }
 }
 

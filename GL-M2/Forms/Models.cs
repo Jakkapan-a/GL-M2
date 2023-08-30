@@ -319,6 +319,7 @@ namespace GL_M2.Forms
                     {
                         Console.WriteLine("ERRROR DELETE FILE");
                     }
+
                     model.image = filename;
 
                     if (images_clone != null)

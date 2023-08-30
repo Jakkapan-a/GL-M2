@@ -144,8 +144,8 @@ namespace GL_M2
         {
             if (reset == STATUS.STOPPED)
             {
-                int x = (int)bmp.Width/2;
-                int y = (int)bmp.Height/2;
+                int x = (int)bmp.Width/4;
+                int y = (int)bmp.Height/4;
 
                 Color color = bmp.GetPixel(x, y);
                 Color color2 = bmp.GetPixel(x+10, y);

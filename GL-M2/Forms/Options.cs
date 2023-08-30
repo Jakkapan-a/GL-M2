@@ -29,7 +29,7 @@ namespace GL_M2.Forms
             npTime_process.Value = Properties.Settings.Default.time_process;
             npPercent_check.Value = Properties.Settings.Default.percent_check;
             cbIsColorDistortion.Checked = Properties.Settings.Default.isColorDistortion;
-
+            nIndexRGB.Value = Properties.Settings.Default.rgbName;
         }
 
         private void cbColor_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,6 +69,9 @@ namespace GL_M2.Forms
                     break;
                 case "npMedianBlur":
                     Properties.Settings.Default.medianBlur = (int)numeric.Value;
+                    break;
+                case "nIndexRGB":
+                    Properties.Settings.Default.rgbName = (int)numeric.Value;
                     break;
             }
             Properties.Settings.Default.Save();
