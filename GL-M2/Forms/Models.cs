@@ -153,9 +153,9 @@ namespace GL_M2.Forms
                 }
                 // Save selected row
                 selectedRow = dgvModels.SelectedRows[0].Index;
+                btnSave.Text = "Save";
+                status = STATUS.NONE;
             }
-            btnSave.Text = "Save";
-            status = STATUS.NONE;
         }
         private void DrawRectangleToImage(Bitmap bitmap, int x, int y, int width, int height, Color color, float penWidth = 2)
         {
@@ -307,9 +307,17 @@ namespace GL_M2.Forms
                     // Save image
                     pgMaster.Image.Save(Path.Combine(Properties.Resources.path_image, filename), ImageFormat.Jpeg);
                     // Delete old image
-                    if (File.Exists(Path.Combine(Properties.Resources.path_image, model.image)))
+                    try
                     {
-                        File.Delete(Path.Combine(Properties.Resources.path_image, model.image));
+                        if (File.Exists(Path.Combine(Properties.Resources.path_image, model.image)))
+                        {
+                            File.Delete(Path.Combine(Properties.Resources.path_image, model.image));
+                        }
+
+                    }
+                    catch
+                    {
+                        Console.WriteLine("ERRROR DELETE FILE");
                     }
                     model.image = filename;
 
